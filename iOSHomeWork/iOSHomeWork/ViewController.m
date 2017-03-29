@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "iOSHomeWork-swift.h"
+
 
 @interface ViewController ()
 
@@ -14,9 +16,16 @@
 
 @implementation ViewController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+}
+
+
+- (void)viewDidLayoutSubviews {
+    MainViewController* mainViewController = [[MainViewController alloc] init];
+    [self presentViewController:mainViewController animated:YES completion:nil];
 }
 
 
