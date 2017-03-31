@@ -10,7 +10,9 @@ import UIKit
 class CustomTableViewCell: UITableViewCell {
     
     var imgView: UIImageView!
-    var lblId: UILabel!
+    var lblId: UILabel?
+    var delegate: LightTableViewController!
+    var progressBar : UIProgressView = UIProgressView(frame: CGRect(x: 190, y: 100, width: 200, height: 20))
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         let f1 = CGRect(x: 10, y: 5, width: 300, height: 300)
@@ -18,17 +20,19 @@ class CustomTableViewCell: UITableViewCell {
         
         imgView = UIImageView(frame: f1)
         lblId = UILabel(frame: f4)
-        lblId.textColor = DESIGN_PRIMARY_COLOR_1
+        lblId?.textColor = DESIGN_PRIMARY_COLOR_1
         
         imgView.image = UIImage(named: "home")
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         initializeLabels()
+        
+        
     }
     
     func initializeLabels() {
-        let allItems : [UIView] = [lblId, imgView]
+        let allItems : [UIView] = [lblId!, imgView, progressBar]
         
         for item in allItems {
             self.contentView.addSubview(item)
@@ -58,4 +62,12 @@ class CustomTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+}
+
+
+func junk() {
+    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
+        DispatchQueue.main.async {
+        }
+    }
 }

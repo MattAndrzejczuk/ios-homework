@@ -19,8 +19,9 @@ import Alamofire
 class GiphyApi {
     var delegate: MainViewController!
     
-    func search(keyword: String) {
-        let url: String = GiphySearchGenerator(withKeyword: keyword).absoluteUrl
+    func search(keyword: String, pagination: Int) {
+        let url: String = "\(GiphySearchGenerator(withKeyword: keyword).absoluteUrl)&offset=\(pagination)"
+        print(url)
         searchGiphyApiWithAlamo(url: url)
     }
     

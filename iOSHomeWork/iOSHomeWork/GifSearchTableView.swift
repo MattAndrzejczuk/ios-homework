@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import Alamofire
+import SwiftyJSON
+
 
 
 class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSource {
@@ -22,6 +24,8 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
     var imageSetModel = GifImageSetModel()
     
     var rememberedImageData : [Int:Data?] = [:]
+    var downloadProgress : [Int:Double] = [:]
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,6 +39,37 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
         
         self.addSubview(mainTableView)
         self.backgroundColor = DESIGN_PRIMARY_COLOR
+        
+        // Table View Content:
+        NSLayoutConstraint(item: self.mainTableView,
+                                      attribute: .top,
+                                      relatedBy: .equal,
+                                      toItem: self,
+                                      attribute: .top,
+                                      multiplier: 1.0,
+                                      constant: 15).isActive = true;
+        NSLayoutConstraint(item: self.mainTableView,
+                                      attribute: .leading,
+                                      relatedBy: .equal,
+                                      toItem: self,
+                                      attribute: .leading,
+                                      multiplier: 1.0,
+                                      constant: 20).isActive = true;
+        NSLayoutConstraint(item: self.mainTableView,
+                                      attribute: .trailing,
+                                      relatedBy: .equal,
+                                      toItem: self,
+                                      attribute: .trailing,
+                                      multiplier: 1.0,
+                                      constant: -20).isActive = true;
+        NSLayoutConstraint(item: self.mainTableView,
+                                      attribute: .bottom,
+                                      relatedBy: .equal,
+                                      toItem: self,
+                                      attribute: .bottom,
+                                      multiplier: 1.0,
+                                      constant: -5).isActive = true;
+        
     }
     
     
@@ -55,22 +90,25 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
         let index = imgIndexes[indexPath.row]
         
         if rememberedImageData[indexPath.row] != nil {
-            let img = UIImage.gif(data: rememberedImageData[indexPath.row] as! Data)!
+            let img = UIImage.gif(data: rememberedImageData[indexPath.row]!!)!
             (cell).imgView.image = img
-            cell.lblId.text = imageSetModel.images[index!]!.gifUrl.absoluteString
+            cell.lblId?.text = "\(imageSetModel.images[index!]!.gifUrl.absoluteString)"
+            cell.progressBar.isHidden = true
             return cell
         }
         else if imageSetModel.images[index!]!.data != nil {
             let img = UIImage.gif(data: imageSetModel.images[index!]!.data!)
             (cell).imgView.image = img
-            cell.lblId.text = imageSetModel.images[index!]!.gifUrl.absoluteString
-            mainTableView.beginUpdates()
-            mainTableView.reloadRows(at: [indexPath], with: .fade)
-            mainTableView.endUpdates()
+            cell.lblId?.text = "\(imageSetModel.images[index!]!.gifUrl.absoluteString)"
+            cell.progressBar.isHidden = true
+//            mainTableView.beginUpdates()
+//            mainTableView.reloadRows(at: [indexPath], with: .fade)
+//            mainTableView.endUpdates()
             return cell
         }
         else {
-            cell.lblId.text = imageSetModel.images[index!]!.gifUrl.absoluteString
+            cell.lblId?.text = "\(imageSetModel.images[index!]!.gifUrl.absoluteString)"
+            cell.progressBar.isHidden = false
             return cell
         }
         
@@ -78,7 +116,61 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let _cell = cell as? CustomTableViewCell {
+            if downloadProgress[indexPath.row] == nil {
+                var imgIndexes : [Int:String] = [:];
+                var i = 0;
+                for img in imageSetModel.images {
+                    imgIndexes[i] = img.key
+                    i += 1
+                }
+                
+                let cellModelIndex = imgIndexes[indexPath.row]
+                let cellModel = imageSetModel.images[cellModelIndex!]!
+                
+                
+                if cellModel.data == nil {
+                    Alamofire.request(cellModel.gifUrl,
+                                      method: .get,
+                                      parameters: nil,
+                                      encoding: JSONEncoding.default)
+                        .downloadProgress(queue: DispatchQueue.global(qos: .utility))
+                        { progress in
 
+                            
+                            
+                            if progress.fractionCompleted >= 1 {
+                                DispatchQueue.main.async {
+                                    _cell.progressBar.setProgress(0.0, animated: false)
+                                    _cell.progressBar.isHidden = true
+                                    self.downloadProgress[indexPath.row] = progress.fractionCompleted
+                                }                            } else {
+                                print(progress.fractionCompleted)
+                                DispatchQueue.main.async {
+                                    _cell.progressBar.setProgress(Float(progress.fractionCompleted), animated: false)
+                                    _cell.progressBar.isHidden = false
+                                    self.downloadProgress[indexPath.row] = progress.fractionCompleted
+                                }
+                            }
+                        }
+                        .validate { request, response, data in
+                            return .success
+                        }
+                        .responseJSON { response in
+                            if let data = response.data {
+                                self.imageDidFinishDownloading(imgData: data,
+                                                               withId: cellModel.id,
+                                                               url: cellModel.gifUrl,
+                                                               index_path: indexPath)
+                            } else {
+                                print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
+                            }
+                    }
+                }
+                
+                
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -97,23 +189,20 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
         let cellModel = imageSetModel.images[cellModelIndex!]!
         
         
-        Alamofire.request(cellModel.gifUrl,
+        Alamofire.request("http://api.giphy.com/v1/gifs/\(cellModel.id)?api_key=dc6zaTOxFJmzC",
                           method: .get,
                           parameters: nil,
                           encoding: JSONEncoding.default)
-            .downloadProgress(queue: DispatchQueue.global(qos: .utility))
-            { progress in
-                print("Progress: \(progress.fractionCompleted)")
-            }
+//            .downloadProgress(queue: DispatchQueue.global(qos: .utility))
+//            { progress in
+//            }
             .validate { request, response, data in
                 return .success
             }
             .responseJSON { response in
                 if let data = response.data {
-                    self.imageDidFinishDownloading(imgData: data,
-                                                   withId: cellModel.id,
-                                                   url: cellModel.gifUrl,
-                                                   index_path: indexPath)
+                    let json = JSON(data: data)
+                    print(json)
                 } else {
                     print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
                 }
@@ -122,7 +211,11 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
     
     
     func imageDidFinishDownloading(imgData: Data, withId: String, url: URL, index_path: IndexPath) {
-        let imageModel = GifImageModel(id: withId, imgType: "gif", gifUrl: url, data: imgData)
+        let imageModel = GifImageModel(id: withId,
+                                       imgType: "gif",
+                                       gifUrl: url,
+                                       data: imgData,
+                                       progress: 1.0)
         
         if imageSetModel.images[withId] == nil {
             print("this image set is nil.")
@@ -133,21 +226,12 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
                                              toSet: oldSetModel)
             
             rememberedImageData[index_path.row] = imgData
-            
             mainTableView.beginUpdates()
-            mainTableView.reloadRows(at: [index_path], with: .left)
+            mainTableView.reloadRows(at: [index_path], with: .fade)
             mainTableView.endUpdates()
-            
-            /*
-            let fileManager = FileManager.default
-            let paths = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appending("\(withId)")
-            print(paths)
-            let imageData =
-            fileManager.createFile(atPath: paths as String, contents: imageData, attributes: nil)
-            */
         }
     }
-    
+
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -168,30 +252,3 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
 
 
 
-struct GifImageSetModel {
-    let images: [String:GifImageModel]
-    
-    init() {
-        images = [:]
-    }
-    
-    init(addImage: GifImageModel, toSet: GifImageSetModel) {
-        var oldSetImages = toSet.images
-        oldSetImages[addImage.id] = addImage
-        images = oldSetImages
-    }
-    
-    init(updateImage: GifImageModel, withId: String, inSet: GifImageSetModel) {
-        var oldSetImages = inSet.images
-        oldSetImages[withId] = updateImage
-        images = oldSetImages
-    }
-}
-
-
-struct GifImageModel {
-    let id : String
-    let imgType : String
-    let gifUrl : URL
-    let data : Data?
-}

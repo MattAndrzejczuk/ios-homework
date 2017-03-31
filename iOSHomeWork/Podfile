@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '10.0'
+platform :ios, '9.0'
 use_frameworks!
 
 
@@ -7,6 +7,6 @@ target 'iOSHomeWork' do
   pod 'SwiftyJSON', '3.1.4'
   pod 'Alamofire', '~> 4.4'
   pod 'SwiftGifOrigin', '~> 1.6.1'
+  pod 'EVReflection/MoyaRxSwift'
 end
-
 

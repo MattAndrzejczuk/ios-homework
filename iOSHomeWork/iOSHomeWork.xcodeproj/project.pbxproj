@@ -16,6 +16,7 @@
 		8BD0CEE91DF0F4D100F7EFA2 /* iOSHomeWorkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0CEE81DF0F4D100F7EFA2 /* iOSHomeWorkTests.m */; };
 		8BD0CEF41DF0F4D100F7EFA2 /* iOSHomeWorkUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0CEF31DF0F4D100F7EFA2 /* iOSHomeWorkUITests.m */; };
 		9EC2A922457C1D53DE0E445C /* Pods_iOSHomeWork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B6A8B9DB83697EBF196257 /* Pods_iOSHomeWork.framework */; };
+		C80DFA8A1E8EBFAB00E3793E /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80DFA891E8EBFAB00E3793E /* GifImage.swift */; };
 		C82EA6DA1E8C49CC00EFB3EB /* GiphyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */; };
 		C82EA6DC1E8C605D00EFB3EB /* GifSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82EA6DB1E8C605D00EFB3EB /* GifSearchTableView.swift */; };
 		C838395C1E8C36C6004FFAB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C838395B1E8C36C6004FFAB8 /* MainViewController.swift */; };
@@ -60,6 +61,7 @@
 		8BD0CEF31DF0F4D100F7EFA2 /* iOSHomeWorkUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSHomeWorkUITests.m; sourceTree = "<group>"; };
 		8BD0CEF51DF0F4D100F7EFA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90B6A8B9DB83697EBF196257 /* Pods_iOSHomeWork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSHomeWork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C80DFA891E8EBFAB00E3793E /* GifImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
 		C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyApi.swift; sourceTree = "<group>"; };
 		C82EA6DB1E8C605D00EFB3EB /* GifSearchTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifSearchTableView.swift; sourceTree = "<group>"; };
 		C838395A1E8C36C5004FFAB8 /* iOSHomeWork-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSHomeWork-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -167,6 +169,14 @@
 			path = iOSHomeWorkUITests;
 			sourceTree = "<group>";
 		};
+		C80DFA881E8EBF8D00E3793E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C80DFA891E8EBFAB00E3793E /* GifImage.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		C82EA6D81E8C498D00EFB3EB /* Giphy */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,6 +188,7 @@
 		C83839591E8C36A0004FFAB8 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				C80DFA881E8EBF8D00E3793E /* Models */,
 				C82EA6D81E8C498D00EFB3EB /* Giphy */,
 				C838395B1E8C36C6004FFAB8 /* MainViewController.swift */,
 				C82EA6DB1E8C605D00EFB3EB /* GifSearchTableView.swift */,
@@ -385,6 +396,7 @@
 			files = (
 				C82EA6DC1E8C605D00EFB3EB /* GifSearchTableView.swift in Sources */,
 				C84835751E8CAB7D008FBA54 /* ColorTheme.config.swift in Sources */,
+				C80DFA8A1E8EBFAB00E3793E /* GifImage.swift in Sources */,
 				C85467B51E8CDDA0009A9594 /* CustomTableViewCell.swift in Sources */,
 				8BD0CED61DF0F4D000F7EFA2 /* ViewController.m in Sources */,
 				C82EA6DA1E8C49CC00EFB3EB /* GiphyApi.swift in Sources */,
@@ -543,7 +555,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = KG3A5N738L;
 				INFOPLIST_FILE = iOSHomeWork/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Eaze.iOSHomeWork;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -561,7 +573,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = KG3A5N738L;
 				INFOPLIST_FILE = iOSHomeWork/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Eaze.iOSHomeWork;
 				PRODUCT_NAME = "$(TARGET_NAME)";

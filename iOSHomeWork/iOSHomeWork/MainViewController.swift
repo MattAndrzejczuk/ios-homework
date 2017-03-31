@@ -17,48 +17,373 @@ protocol GiphyDelegate {
     func apiDidGetResponse(data: Data);
 }
 
-class MainViewController: UIViewController, GiphyDelegate {
+class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate {
     
-    var headerLabel: UILabel!
-    var searchView: UITextView!
+    var headerView: UIView!
     var dataView: UIView!
     var footerView: UIView!
     
     
     var api: GiphyApi! = GiphyApi()
     
-    let button2 = UIButton(frame: CGRect(x: 0, y: 280, width: 200, height: 80))
     
     let buttonReloadConstraints = UIButton(frame: CGRect(x: 110, y: 400, width: 185, height: 180))
-    let ltv: LightTableViewController? = LightTableViewController(frame: CGRect(x: 50, y: 50, width: 100, height: 100))
+    let ltv: LightTableViewController! = LightTableViewController(frame: CGRect(x: 50, y: 50, width: 100, height: 100))
     
     let txtSearchBox : UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 80))
+    let buttonSearch = UIButton(frame: CGRect(x: 0, y: 280, width: 100, height: 80))
+    let buttonClearResults = UIButton(frame: CGRect(x: 0, y: 280, width: 100, height: 80))
+    let btnShowMore = UIButton(frame: CGRect(x: 0, y: 280, width: 100, height: 80))
+    
+    var paginationOffset = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        view.backgroundColor = .black;
+        view.backgroundColor = .white;
         api.delegate = self
+        txtSearchBox.delegate = self
     
-        // INIT BUTTONS:
-        buttonReloadConstraints.setTitle("API Search", for: .normal)
-        buttonReloadConstraints.setTitleColor(DESIGN_PRIMARY_COLOR_1, for: .normal)
-        buttonReloadConstraints.setTitleColor(DESIGN_PRIMARY_COLOR, for: .highlighted)
-        buttonReloadConstraints.addTarget(self, action: #selector(MainViewController.apiSearch), for: .touchUpInside)
-        view.addSubview(buttonReloadConstraints)
+        let genericFrame = CGRect(x: 0, y: 0, width: 300, height: 50)
+        headerView = UILabel(frame: genericFrame)
+        dataView = UIView(frame: genericFrame)
+        footerView = UIView(frame: genericFrame)
         
-        initConstraints()
+        autolayoutUsingConstraint()
     }
     
-    func setLiteTVC() {
-
+    func initUI() {
+        footerView.backgroundColor = .gray
+        
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        dataView.translatesAutoresizingMaskIntoConstraints = false
+        footerView.translatesAutoresizingMaskIntoConstraints = false
+        buttonSearch.translatesAutoresizingMaskIntoConstraints = false
+        txtSearchBox.translatesAutoresizingMaskIntoConstraints = false
+        buttonClearResults.translatesAutoresizingMaskIntoConstraints = false
+        btnShowMore.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(headerView)
+        self.view.addSubview(ltv)
+        self.view.addSubview(footerView)
+        self.view.addSubview(buttonSearch)
+        self.view.addSubview(txtSearchBox)
+        self.view.addSubview(buttonClearResults)
+        self.view.addSubview(btnShowMore)
+        
+        buttonSearch.setTitle("Search", for: .normal)
+        buttonSearch.addTarget(self,
+                               action: #selector(MainViewController.apiSearch),
+                               for: .touchUpInside)
+        buttonSearch.setTitleColor(.blue, for: .normal)
+        
+        
+        buttonClearResults.setTitle("Clear Results", for: .normal)
+        buttonClearResults.addTarget(self,
+                                     action: #selector(MainViewController.clearTableViewData),
+                                     for: .touchUpInside)
+        buttonClearResults.setTitleColor(.blue, for: .normal)
+        
+        
+        btnShowMore.setTitle("Load More", for: .normal)
+        btnShowMore.addTarget(self,
+                                     action: #selector(MainViewController.loadMoreResults),
+                                     for: .touchUpInside)
+        btnShowMore.setTitleColor(.blue, for: .normal)
+        
+        
+        txtSearchBox.placeholder = "Search Keywords"
     }
+    
+    func initSearchButton() {
+        NSLayoutConstraint(item: buttonSearch,
+                           attribute: .top,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .top,
+                           multiplier: 1.0,
+                           constant: 20).isActive = true
+        
+        NSLayoutConstraint(item: buttonSearch,
+                           attribute: .trailing,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .trailing,
+                           multiplier: 1.0,
+                           constant: -40).isActive = true
+        
+        NSLayoutConstraint(item: buttonSearch,
+                           attribute: .centerY,
+                           relatedBy: .equal,
+                           toItem: headerView,
+                           attribute: .centerY,
+                           multiplier: 1.0,
+                           constant: 0).isActive = true
+        
+        
+        NSLayoutConstraint(item: txtSearchBox,
+                           attribute: .top,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .top,
+                           multiplier: 1.0,
+                           constant: 30).isActive = true
+        
+        NSLayoutConstraint(item: txtSearchBox,
+                           attribute: .leading,
+                           relatedBy: .equal,
+                           toItem: view,
+                           attribute: .leading,
+                           multiplier: 1.0,
+                           constant: 30).isActive = true
+        
+        NSLayoutConstraint(item: txtSearchBox,
+                           attribute: .trailing,
+                           relatedBy: .equal,
+                           toItem: buttonSearch,
+                           attribute: .leading,
+                           multiplier: 1.0,
+                           constant: 0).isActive = true
+        
+        NSLayoutConstraint(item: txtSearchBox,
+                           attribute: .centerY,
+                           relatedBy: .equal,
+                           toItem: headerView,
+                           attribute: .centerY,
+                           multiplier: 1.0,
+                           constant: 0).isActive = true
+        
+        //
+        
+        NSLayoutConstraint(item: buttonClearResults,
+                           attribute: .top,
+                           relatedBy: .equal,
+                           toItem: footerView,
+                           attribute: .top,
+                           multiplier: 1.0,
+                           constant: 0).isActive = true
+        
+        NSLayoutConstraint(item: buttonClearResults,
+                           attribute: .trailing,
+                           relatedBy: .equal,
+                           toItem: footerView,
+                           attribute: .trailing,
+                           multiplier: 1.0,
+                           constant: -40).isActive = true
+        
+        NSLayoutConstraint(item: buttonClearResults,
+                           attribute: .centerY,
+                           relatedBy: .equal,
+                           toItem: footerView,
+                           attribute: .centerY,
+                           multiplier: 1.0,
+                           constant: 0).isActive = true
+        
+        // 
+        
+//        NSLayoutConstraint(item: btnShowMore,
+//                           attribute: .top,
+//                           relatedBy: .equal,
+//                           toItem: footerView,
+//                           attribute: .top,
+//                           multiplier: 1.0,
+//                           constant: -40).isActive = true
+        NSLayoutConstraint(item: btnShowMore,
+                           attribute: .leading,
+                           relatedBy: .equal,
+                           toItem: footerView,
+                           attribute: .leading,
+                           multiplier: 1.0,
+                           constant: 40).isActive = true
+        NSLayoutConstraint(item: btnShowMore,
+                           attribute: .centerY,
+                           relatedBy: .equal,
+                           toItem: footerView,
+                           attribute: .centerY,
+                           multiplier: 1.0,
+                           constant: 0).isActive = true
+    }
+    
+    
+    func autolayoutUsingConstraint() {
+        initUI()
+        
+        //HeaderView
+        //Header = 20 from left edge of screen
+        let cn1 = NSLayoutConstraint(item: headerView,
+                                     attribute: .leading,
+                                     relatedBy: .equal,
+                                     toItem: view,
+                                     attribute: .leading,
+                                     multiplier: 1.0,
+                                     constant: 20);
+        //Header view trailing end is 20 px from right edge of the screen
+        let cn2 = NSLayoutConstraint(item: headerView,
+                                     attribute: .trailing,
+                                     relatedBy: .equal,
+                                     toItem: view,
+                                     attribute: .trailing,
+                                     multiplier: 1.0,
+                                     constant: -20);
+        //Header view height = constant 60
+        let cn3 = NSLayoutConstraint(item: headerView,
+                                     attribute: .height,
+                                     relatedBy: .equal,
+                                     toItem: nil,
+                                     attribute: .notAnAttribute,
+                                     multiplier: 1.0,
+                                     constant: 60);
+        
+        let cn5 = NSLayoutConstraint(item: headerView,
+                                     attribute: .top,
+                                     relatedBy: .equal,
+                                     toItem: view,
+                                     attribute: .top,
+                                     multiplier: 1.0,
+                                     constant: 20);
+        
+        
+        
+        
+        
+        //Table View Controller Contraints
+        let cn11 = NSLayoutConstraint(item: ltv,
+                                      attribute: .top,
+                                      relatedBy: .equal,
+                                      toItem: view,
+                                      attribute: .bottomMargin,
+                                      multiplier: 1.0,
+                                      constant: 150);
+        let cn15 = NSLayoutConstraint(item: ltv,
+                                      attribute: .leading,
+                                      relatedBy: .equal,
+                                      toItem: view,
+                                      attribute: .leading,
+                                      multiplier: 1.0,
+                                      constant: 20);
+        let cn12 = NSLayoutConstraint(item: ltv,
+                                      attribute: .trailing,
+                                      relatedBy: .equal,
+                                      toItem: view,
+                                      attribute: .trailing,
+                                      multiplier: 1.0,
+                                      constant: -20);
+        let cn015 = NSLayoutConstraint(item: ltv,
+                                       attribute: .bottom,
+                                       relatedBy: .equal,
+                                       toItem: footerView,
+                                       attribute: .top,
+                                       multiplier: 1.0,
+                                       constant: -5);
+        
+        
+        
+        //Footer Section
+        let cn16 = NSLayoutConstraint(item: footerView,
+                                      attribute: .leading,
+                                      relatedBy: .equal,
+                                      toItem: view,
+                                      attribute: .leading,
+                                      multiplier: 1.0,
+                                      constant: 20);
+        let cn17 = NSLayoutConstraint(item: footerView,
+                                      attribute: .trailing,
+                                      relatedBy: .equal,
+                                      toItem: view,
+                                      attribute: .trailing,
+                                      multiplier: 1.0,
+                                      constant: -20);
+        let cn18 = NSLayoutConstraint(item: footerView,
+                                      attribute: .height,
+                                      relatedBy: .equal,
+                                      toItem: nil,
+                                      attribute: .notAnAttribute,
+                                      multiplier: 1.0,
+                                      constant: 50);
+        let cn20 = NSLayoutConstraint(item: ltv,
+                                      attribute: .top,
+                                      relatedBy: .equal,
+                                      toItem: headerView,
+                                      attribute: .bottom,
+                                      multiplier: 1.0,
+                                      constant: 0);
+        let cn21 = NSLayoutConstraint(item: footerView,
+                                      attribute: .bottom,
+                                      relatedBy: .equal,
+                                      toItem: view,
+                                      attribute: .bottom,
+                                      multiplier: 1.0,
+                                      constant: -10);
+        
+        
+        view.addConstraint(cn1)
+        view.addConstraint(cn2)
+        view.addConstraint(cn3)
+        view.addConstraint(cn5)
+        
+        
+        view.addConstraint(cn11)
+        view.addConstraint(cn12)
+        
+        view.addConstraint(cn15)
+        
+        view.addConstraint(cn16)
+        view.addConstraint(cn17)
+        view.addConstraint(cn18)
+        view.addConstraint(cn20)
+        view.addConstraint(cn21)
+        
+        view.addConstraint(cn015)
+        
+        initSearchButton()
+    }
+    
+    
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let text = textField.text {
+            if text.characters.count > 0 {
+                textField.resignFirstResponder()
+                clearTableViewData()
+                apiSearch()
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+    
+    
+    
+    func clearTableViewData() {
+        print("data cleared?")
+        paginationOffset = 0
+        self.ltv!.rememberedImageData = [:]
+        self.ltv!.downloadProgress = [:]
+        ltv!.imageSetModel = GifImageSetModel()
+        self.ltv!.mainTableView.reloadData();
+    }
+    
+    var currentSearchText = ""
+    
+    func loadMoreResults() {
+        paginationOffset += 25
+        api.search(keyword: currentSearchText, pagination: paginationOffset)
+    }
+    
     
     
     // 1. FIRE GET REQUEST
     func apiSearch() {
-        print("testLayout called.")
-        api.search(keyword: "cat")
+        print("apiSearch called.")
+        if let text = txtSearchBox.text {
+            currentSearchText = text
+            api.search(keyword: text, pagination: paginationOffset)
+            paginationOffset += 1
+        }
     }
     
     // 2. RECEIVE GET RESPONSE
@@ -86,9 +411,14 @@ class MainViewController: UIViewController, GiphyDelegate {
                     let imageStruct = GifImageModel(id: giphyId,
                                                     imgType: giphyType,
                                                     gifUrl: URL(string: generatedUrl)!,
-                                                    data: nil);
+                                                    data: nil,
+                                                    progress: 0);
                     ltv?.imageSetModel = GifImageSetModel(addImage: imageStruct, toSet: ltv!.imageSetModel);
-                    self.ltv?.mainTableView.reloadData();
+                    if i == (arrayLength - 1) {
+                        self.ltv?.downloadProgress = [:]
+                        self.ltv?.mainTableView.reloadData();
+                    }
+                    
                 } else {
                     let giphyGifUrl = jdata[i]["bitly_gif_url"].string!
                     let generatedUrl = "http://media1.giphy.com/media/\(giphyId)/giphy.gif"
@@ -105,9 +435,13 @@ class MainViewController: UIViewController, GiphyDelegate {
                     let imageStruct = GifImageModel(id: giphyId,
                                                     imgType: giphyType,
                                                     gifUrl: URL(string: generatedUrl)!,
-                                                    data: nil);
+                                                    data: nil,
+                                                    progress: 0);
                     ltv?.imageSetModel = GifImageSetModel(addImage: imageStruct, toSet: ltv!.imageSetModel);
-                    self.ltv?.mainTableView.reloadData();
+                    if i == (arrayLength - 1) {
+                        self.ltv?.downloadProgress = [:]
+                        self.ltv?.mainTableView.reloadData();
+                    }
                 }
                 
                 
@@ -120,187 +454,25 @@ class MainViewController: UIViewController, GiphyDelegate {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation.isLandscape {
             print("Landscape")
-            ltv!.frame.size.height = (SCREEN_CONTENT_VIEW.width) + 115
-            ltv!.frame.size.width = (SCREEN_CONTENT_VIEW.width * 1.6) + 115
-            ltv!.mainTableView.frame.size.height = SCREEN_CONTENT_VIEW.width
-            ltv!.mainTableView.frame.size.width = SCREEN_CONTENT_VIEW.width * 1.6
+
         } else {
             print("Portrait")
-            ltv!.frame.size.height = (SCREEN_CONTENT_VIEW.width) + 115
-            ltv!.frame.size.width = (SCREEN_CONTENT_VIEW.width * 1.6) + 115
-            ltv!.mainTableView.frame.size.height = SCREEN_CONTENT_VIEW.height
-            ltv!.mainTableView.frame.size.width = SCREEN_CONTENT_VIEW.width
+
         }
     }
-
-    
-    var cp1 : NSLayoutConstraint?
-    var cp2 : NSLayoutConstraint?
-    var cl1 : NSLayoutConstraint?
-    var cl2 : NSLayoutConstraint?
     
     override func viewDidLayoutSubviews() {
         print("did layout subviews!")
-
-        if let liteView = ltv {
-            if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown {
-//                NSLayoutConstraint.activate([cp1!, cp2!])
-            } else {
-
-//                NSLayoutConstraint.activate([cl1!, cl2!])
-            }
-        }
+//        if let liteView = ltv {
+//            if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown {
+//            } else {
+//            }
+//        }
         super.viewDidLayoutSubviews()
     }
     
 
-    
-    func didPressBtn1(sender: UIButton) {
-        downloadImageWithAlamo(url: "http://media2.giphy.com/media/jTnGaiuxvvDNK/giphy.gif")
-    }
-    
-    func initConstraints() {
-        api.search(keyword: "funny+cat+meme")
-        
-        
-        ltv!.frame.size.height = (SCREEN_CONTENT_VIEW.width) + 115
-        ltv!.frame.size.width = (SCREEN_CONTENT_VIEW.width * 1.6) + 115
-        
-        
-        ltv!.delegate = self
-        view.addSubview(ltv!)
-        ltv!.translatesAutoresizingMaskIntoConstraints = false
-        ltv!.mainTableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // main view
-        NSLayoutConstraint(item: ltv!,
-                           attribute: .top,
-                           relatedBy: .equal,
-                           toItem: view,
-                           attribute: .top,
-                           multiplier: 1.0,
-                           constant: 5.0
-            ).isActive = true
-        
-        NSLayoutConstraint(item: ltv!,
-                           attribute: .leading,
-                           relatedBy: .equal,
-                           toItem: view,
-                           attribute: .leading,
-                           multiplier: 1.0,
-                           constant: 5.0
-            ).isActive = true
 
-        
-        // mainTableView
-        NSLayoutConstraint(item: ltv!.mainTableView,
-                           attribute: .top,
-                           relatedBy: .equal,
-                           toItem: ltv!,
-                           attribute: .top,
-                           multiplier: 2.0,
-                           constant: 100.0
-            ).isActive = true
-        
-        NSLayoutConstraint(item: ltv!.mainTableView,
-                           attribute: .leading,
-                           relatedBy: .equal,
-                           toItem: ltv!,
-                           attribute: .leading,
-                           multiplier: 1.0,
-                           constant: 50.0
-            ).isActive = true
-
-        
-        buttonReloadConstraints.translatesAutoresizingMaskIntoConstraints = false
-        
-        let topLeftViewLeadingConstraint = NSLayoutConstraint(item: buttonReloadConstraints,
-                                                              attribute: .leading,
-                                                              relatedBy: .equal,
-                                                              toItem: view,
-                                                              attribute: .leading,
-                                                              multiplier: 1,
-                                                              constant: 5)
-        
-        let topLeftViewTopConstraint = NSLayoutConstraint(item: buttonReloadConstraints,
-                                                          attribute: .bottom,
-                                                          relatedBy: .equal,
-                                                          toItem: view,
-                                                          attribute: .bottom,
-                                                          multiplier: 1,
-                                                          constant: -15)
-        
-        NSLayoutConstraint.activate([topLeftViewLeadingConstraint,
-                                     topLeftViewTopConstraint])
-        
-        NSLayoutConstraint(item: buttonReloadConstraints,
-                           attribute: .height,
-                           relatedBy: .equal,
-                           toItem: nil,
-                           attribute: .notAnAttribute,
-                           multiplier: 1.0,
-                           constant: 150).isActive = true
-        
-        NSLayoutConstraint(item: ltv!,
-                                 attribute: .width,
-                                 relatedBy: .equal,
-                                 toItem: nil,
-                                 attribute: .notAnAttribute,
-                                 multiplier: 1.0,
-                                 constant: (SCREEN.width * 0.95)).isActive = true
-        
-        NSLayoutConstraint(item: ltv!,
-                                 attribute: .height,
-                                 relatedBy: .equal,
-                                 toItem: nil,
-                                 attribute: .notAnAttribute,
-                                 multiplier: 1.0,
-                                 constant: (SCREEN.height * 0.75)).isActive = true
-        
-        NSLayoutConstraint(item: ltv!.mainTableView,
-                                 attribute: .width,
-                                 relatedBy: .equal,
-                                 toItem: nil,
-                                 attribute: .notAnAttribute,
-                                 multiplier: 1.0,
-                                 constant: (SCREEN.width * 0.80)).isActive = true
-        
-        NSLayoutConstraint(item: ltv!.mainTableView,
-                                 attribute: .height,
-                                 relatedBy: .equal,
-                                 toItem: nil,
-                                 attribute: .notAnAttribute,
-                                 multiplier: 1.0,
-                                 constant: (SCREEN.height * 0.60)).isActive = true
-    }
-
-    
-    
-
-    
-    func downloadImageWithAlamo(url: String) {
-        Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default)
-            .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
-                print("Progress: \(progress.fractionCompleted)")
-            }
-            .validate { request, response, data in
-                return .success
-            }
-            .responseJSON { response in
-            if let data = response.data {
-                self.didGetImageData(data: data)
-            } else {
-                print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
-            }
-        }
-    }
-    
-    func didGetImageData(data: Data) {
-        let imgView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        let img = UIImage.gif(data: data)
-        imgView.image = img
-        view.addSubview(imgView)
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

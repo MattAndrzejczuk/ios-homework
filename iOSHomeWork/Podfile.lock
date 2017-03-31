@@ -1,18 +1,43 @@
 PODS:
   - Alamofire (4.4.0)
+  - EVReflection/Alamofire (4.5.0):
+    - Alamofire (~> 4.2)
+    - EVReflection/Core
+  - EVReflection/Core (4.5.0)
+  - EVReflection/Moya (4.5.0):
+    - EVReflection/Alamofire
+    - Moya (~> 8.0)
+  - EVReflection/MoyaRxSwift (4.5.0):
+    - EVReflection/Moya
+    - Moya/RxSwift
+  - Moya (8.0.3):
+    - Moya/Core (= 8.0.3)
+  - Moya/Core (8.0.3):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - Moya/RxSwift (8.0.3):
+    - Moya/Core
+    - RxSwift (~> 3.0)
+  - Result (3.2.1)
+  - RxSwift (3.3.1)
   - SwiftGifOrigin (1.6.1)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
+  - EVReflection/MoyaRxSwift
   - SwiftGifOrigin (~> 1.6.1)
   - SwiftyJSON (= 3.1.4)
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  EVReflection: f3ef628809585feefa72bf6a8b1ffd3a7a619bdb
+  Moya: d3721622e3cc0cc2f038d69a258686f0b66e7252
+  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  RxSwift: 8fc9f2de6275a9101d518444e00bf32f1a42caac
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: beafe909664b562a7a6084b72f1c977f8325f42f
+PODFILE CHECKSUM: 0bb050b7d1b03c290e60f7f33dc81c8feae7258b
 
 COCOAPODS: 1.2.0
