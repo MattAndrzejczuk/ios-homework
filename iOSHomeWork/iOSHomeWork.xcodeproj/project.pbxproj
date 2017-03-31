@@ -16,7 +16,11 @@
 		8BD0CEE91DF0F4D100F7EFA2 /* iOSHomeWorkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0CEE81DF0F4D100F7EFA2 /* iOSHomeWorkTests.m */; };
 		8BD0CEF41DF0F4D100F7EFA2 /* iOSHomeWorkUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0CEF31DF0F4D100F7EFA2 /* iOSHomeWorkUITests.m */; };
 		9EC2A922457C1D53DE0E445C /* Pods_iOSHomeWork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B6A8B9DB83697EBF196257 /* Pods_iOSHomeWork.framework */; };
+		C82EA6DA1E8C49CC00EFB3EB /* GiphyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */; };
+		C82EA6DC1E8C605D00EFB3EB /* GifSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82EA6DB1E8C605D00EFB3EB /* GifSearchTableView.swift */; };
 		C838395C1E8C36C6004FFAB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C838395B1E8C36C6004FFAB8 /* MainViewController.swift */; };
+		C84835751E8CAB7D008FBA54 /* ColorTheme.config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84835741E8CAB7D008FBA54 /* ColorTheme.config.swift */; };
+		C85467B51E8CDDA0009A9594 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85467B41E8CDDA0009A9594 /* CustomTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +60,12 @@
 		8BD0CEF31DF0F4D100F7EFA2 /* iOSHomeWorkUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSHomeWorkUITests.m; sourceTree = "<group>"; };
 		8BD0CEF51DF0F4D100F7EFA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90B6A8B9DB83697EBF196257 /* Pods_iOSHomeWork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSHomeWork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyApi.swift; sourceTree = "<group>"; };
+		C82EA6DB1E8C605D00EFB3EB /* GifSearchTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifSearchTableView.swift; sourceTree = "<group>"; };
 		C838395A1E8C36C5004FFAB8 /* iOSHomeWork-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSHomeWork-Bridging-Header.h"; sourceTree = "<group>"; };
 		C838395B1E8C36C6004FFAB8 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		C84835741E8CAB7D008FBA54 /* ColorTheme.config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTheme.config.swift; sourceTree = "<group>"; };
+		C85467B41E8CDDA0009A9594 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,11 +167,23 @@
 			path = iOSHomeWorkUITests;
 			sourceTree = "<group>";
 		};
+		C82EA6D81E8C498D00EFB3EB /* Giphy */ = {
+			isa = PBXGroup;
+			children = (
+				C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */,
+			);
+			name = Giphy;
+			sourceTree = "<group>";
+		};
 		C83839591E8C36A0004FFAB8 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				C82EA6D81E8C498D00EFB3EB /* Giphy */,
 				C838395B1E8C36C6004FFAB8 /* MainViewController.swift */,
+				C82EA6DB1E8C605D00EFB3EB /* GifSearchTableView.swift */,
+				C85467B41E8CDDA0009A9594 /* CustomTableViewCell.swift */,
 				C838395A1E8C36C5004FFAB8 /* iOSHomeWork-Bridging-Header.h */,
+				C84835741E8CAB7D008FBA54 /* ColorTheme.config.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -363,7 +383,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C82EA6DC1E8C605D00EFB3EB /* GifSearchTableView.swift in Sources */,
+				C84835751E8CAB7D008FBA54 /* ColorTheme.config.swift in Sources */,
+				C85467B51E8CDDA0009A9594 /* CustomTableViewCell.swift in Sources */,
 				8BD0CED61DF0F4D000F7EFA2 /* ViewController.m in Sources */,
+				C82EA6DA1E8C49CC00EFB3EB /* GiphyApi.swift in Sources */,
 				8BD0CED31DF0F4D000F7EFA2 /* AppDelegate.m in Sources */,
 				8BD0CED01DF0F4D000F7EFA2 /* main.m in Sources */,
 				C838395C1E8C36C6004FFAB8 /* MainViewController.swift in Sources */,
