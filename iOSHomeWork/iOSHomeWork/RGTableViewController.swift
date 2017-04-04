@@ -12,35 +12,72 @@ import Alamofire
 import SwiftyJSON
 
 
+let MODAL_FRAME = CGRect(x: 25, y: 50, width: 200, height: 150)
 
 class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSource {
     
     var mainTableView: UITableView! = UITableView()
-    var cellsArray: [String] = ["One", "Two", "Three"]
-    
     var delegate : MainViewController?
     
     var api: GiphyApi! = GiphyApi()
     var imageSetModel = GifImageSetModel()
     
+    var rememberedImageInstance : [Int:UIImage] = [:]
     var rememberedImageData : [Int:Data?] = [:]
     var downloadProgress : [Int:Double] = [:]
     
+    var dialogModal: UIVisualEffectView?
+    var dialogModalGlass: UIVisualEffectView?
+    var dialogModalShadow : UIView?
+    var loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    
+    
+
+    var modalOrigin: CGRect?
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        print("hey!!!")
+        closeDialogModal()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         mainTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "gif_cell")
-        self.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
         mainTableView.translatesAutoresizingMaskIntoConstraints = false
+
+        
         mainTableView.delegate = self
         mainTableView.dataSource = self
         mainTableView.backgroundColor = .white
         mainTableView.frame = self.frame
         
+        loadingSpinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        loadingSpinner.startAnimating()
+        
+        mainTableView.backgroundColor = .clear
         self.addSubview(mainTableView)
-        self.backgroundColor = DESIGN_PRIMARY_COLOR
+        self.backgroundColor = .clear
+        
         
         // Table View Content:
+        NSLayoutConstraint(item: self.mainTableView,
+                           attribute: .width,
+                           relatedBy: .equal,
+                           toItem: self,
+                           attribute: .width,
+                           multiplier: 1.0,
+                           constant: -40).isActive = true;
+        
+        NSLayoutConstraint(item: self.mainTableView,
+                           attribute: .height,
+                           relatedBy: .equal,
+                           toItem: self,
+                           attribute: .height,
+                           multiplier: 1.0,
+                           constant: -20).isActive = true;
+        
+        
         NSLayoutConstraint(item: self.mainTableView,
                                       attribute: .top,
                                       relatedBy: .equal,
@@ -70,6 +107,39 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
                                       multiplier: 1.0,
                                       constant: -5).isActive = true;
         
+
+        if let dialog = dialogModal {
+            dialog.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint(item: dialog,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: nil,
+                               attribute: .notAnAttribute,
+                               multiplier: 1,
+                               constant: SCREEN.width * 0.618034).isActive = true;
+            NSLayoutConstraint(item: dialog,
+                               attribute: .height,
+                               relatedBy: .equal,
+                               toItem: nil,
+                               attribute: .notAnAttribute,
+                               multiplier: 1,
+                               constant: SCREEN.height * 0.381966).isActive = true;
+            NSLayoutConstraint(item: dialog,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .centerX,
+                               multiplier: 1,
+                               constant: 0).isActive = true;
+            NSLayoutConstraint(item: dialog,
+                               attribute: .centerY,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .centerY,
+                               multiplier: 1,
+                               constant: 0).isActive = true;
+        }
+        
     }
     
     
@@ -82,13 +152,14 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
         var imgIndexes : [Int:String] = [:];
         var i = 0;
         for img in imageSetModel.images {
-            imgIndexes[i] = img.key
-            i += 1
+            imgIndexes[i] = img.key;
+            i += 1;
         }
         
-        let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: "gif_cell") as! CustomTableViewCell
-        let index = imgIndexes[indexPath.row]
-        
+        let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: "gif_cell") as! CustomTableViewCell;
+        let index = imgIndexes[indexPath.row];
+        cell.frame.size.width = mainTableView.frame.size.width
+
         if rememberedImageData[indexPath.row] != nil {
             let img = UIImage.gif(data: rememberedImageData[indexPath.row]!!)!
             (cell).imgView.image = img
@@ -101,9 +172,6 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
             (cell).imgView.image = img
             cell.lblId?.text = "\(imageSetModel.images[index!]!.gifUrl.absoluteString)"
             cell.progressBar.isHidden = true
-//            mainTableView.beginUpdates()
-//            mainTableView.reloadRows(at: [indexPath], with: .fade)
-//            mainTableView.endUpdates()
             return cell
         }
         else {
@@ -130,45 +198,8 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
                 
                 
                 if cellModel.data == nil {
-                    Alamofire.request(cellModel.gifUrl,
-                                      method: .get,
-                                      parameters: nil,
-                                      encoding: JSONEncoding.default)
-                        .downloadProgress(queue: DispatchQueue.global(qos: .utility))
-                        { progress in
-
-                            
-                            
-                            if progress.fractionCompleted >= 1 {
-                                DispatchQueue.main.async {
-                                    _cell.progressBar.setProgress(0.0, animated: false)
-                                    _cell.progressBar.isHidden = true
-                                    self.downloadProgress[indexPath.row] = progress.fractionCompleted
-                                }                            } else {
-                                print(progress.fractionCompleted)
-                                DispatchQueue.main.async {
-                                    _cell.progressBar.setProgress(Float(progress.fractionCompleted), animated: false)
-                                    _cell.progressBar.isHidden = false
-                                    self.downloadProgress[indexPath.row] = progress.fractionCompleted
-                                }
-                            }
-                        }
-                        .validate { request, response, data in
-                            return .success
-                        }
-                        .responseJSON { response in
-                            if let data = response.data {
-                                self.imageDidFinishDownloading(imgData: data,
-                                                               withId: cellModel.id,
-                                                               url: cellModel.gifUrl,
-                                                               index_path: indexPath)
-                            } else {
-                                print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
-                            }
-                    }
+                    downloadImageForPreviewCell(cellModel.gifUrl, at: indexPath, cellModel, _cell)
                 }
-                
-                
             }
         }
     }
@@ -177,6 +208,7 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
 
     }
     
+    var selectedImage : UIImage!
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var imgIndexes : [Int:String] = [:];
         var i = 0;
@@ -188,26 +220,20 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
         let cellModelIndex = imgIndexes[indexPath.row]
         let cellModel = imageSetModel.images[cellModelIndex!]!
         
+        if let cell = tableView.cellForRow(at: indexPath) {
+            self.initMADialog(cell.frame)
+        }
         
-        Alamofire.request("http://api.giphy.com/v1/gifs/\(cellModel.id)?api_key=dc6zaTOxFJmzC",
-                          method: .get,
-                          parameters: nil,
-                          encoding: JSONEncoding.default)
-//            .downloadProgress(queue: DispatchQueue.global(qos: .utility))
-//            { progress in
-//            }
-            .validate { request, response, data in
-                return .success
-            }
-            .responseJSON { response in
-                if let data = response.data {
-                    let json = JSON(data: data)
-                    print(json)
-                } else {
-                    print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
-                }
+        if rememberedImageData[indexPath.row] != nil {
+            print(cellModelIndex!)
+            getImageInfoByIdREST(cellModel.id)
+        } else {
+            return
         }
     }
+    
+    
+
     
     
     func imageDidFinishDownloading(imgData: Data, withId: String, url: URL, index_path: IndexPath) {
@@ -225,6 +251,7 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
             imageSetModel = GifImageSetModel(addImage: imageModel,
                                              toSet: oldSetModel)
             
+            rememberedImageInstance[index_path.row] = UIImage.gif(data: imgData)!
             rememberedImageData[index_path.row] = imgData
             mainTableView.beginUpdates()
             mainTableView.reloadRows(at: [index_path], with: .fade)
@@ -242,11 +269,11 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300;
+        return 200;
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300;
+        return 200;
     }
 }
 

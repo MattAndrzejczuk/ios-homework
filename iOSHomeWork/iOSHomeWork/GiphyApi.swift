@@ -45,36 +45,6 @@ class GiphyApi {
                 }
         }
     }
-    
-    func downloadImageWithAlamo(url: String) {
-        Alamofire.request(url,
-                          method: .get,
-                          parameters: nil,
-                          encoding: JSONEncoding.default)
-            .downloadProgress(queue: DispatchQueue.global(qos: .utility))
-            { progress in
-                print("Progress: \(progress.fractionCompleted)")
-            }
-            .validate { request, response, data in
-                return .success
-            }
-            .responseJSON { response in
-                if let data = response.data {
-                    self.didGetImageData(data: data)
-                } else {
-                    print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
-                }
-        }
-    }
-    
-    func didGetImageData(data: Data) {
-        let imgView = UIImageView(frame: CGRect(x: 0,
-                                                y: 0,
-                                                width: 200,
-                                                height: 200))
-        let img = UIImage.gif(data: data)
-        imgView.image = img
-    }
 }
 
 struct GiphySearchGenerator {

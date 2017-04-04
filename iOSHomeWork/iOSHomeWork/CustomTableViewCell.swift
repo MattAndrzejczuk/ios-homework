@@ -7,6 +7,8 @@
 //
 import UIKit
 
+
+
 class CustomTableViewCell: UITableViewCell {
     
     var imgView: UIImageView!
@@ -29,6 +31,50 @@ class CustomTableViewCell: UITableViewCell {
         initializeLabels()
         
         
+//        self.translatesAutoresizingMaskIntoConstraints = false;
+        progressBar.translatesAutoresizingMaskIntoConstraints = false;
+        imgView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        NSLayoutConstraint(item: progressBar,
+                           attribute: .top,
+                           relatedBy: .equal,
+                           toItem: self,
+                           attribute: .top,
+                           multiplier: 1.0,
+                           constant: 100).isActive = true
+        NSLayoutConstraint(item: progressBar,
+                           attribute: .leading,
+                           relatedBy: .equal,
+                           toItem: self,
+                           attribute: .leading,
+                           multiplier: 1.0,
+                           constant: 30).isActive = true
+        NSLayoutConstraint(item: progressBar,
+                           attribute: .width,
+                           relatedBy: .equal,
+                           toItem: nil,
+                           attribute: .notAnAttribute,
+                           multiplier: 1.0,
+                           constant: 200).isActive = true
+        
+        NSLayoutConstraint(item: imgView,
+                           attribute: .top,
+                           relatedBy: .equal,
+                           toItem: contentView,
+                           attribute: .top,
+                           multiplier: 1.0,
+                           constant: 10).isActive = true
+        NSLayoutConstraint(item: imgView,
+                           attribute: .width,
+                           relatedBy: .equal,
+                           toItem: contentView,
+                           attribute: .width,
+                           multiplier: 0.5,
+                           constant: 0).isActive = true
+        
+        imgView.contentMode = .scaleAspectFit
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .clear
     }
     
     func initializeLabels() {
