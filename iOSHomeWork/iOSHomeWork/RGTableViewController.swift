@@ -149,33 +149,25 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var imgIndexes : [Int:String] = [:];
-        var i = 0;
-        for img in imageSetModel.images {
-            imgIndexes[i] = img.key;
-            i += 1;
-        }
-        
         let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: "gif_cell") as! CustomTableViewCell;
-        let index = imgIndexes[indexPath.row];
         cell.frame.size.width = mainTableView.frame.size.width
 
         if rememberedImageData[indexPath.row] != nil {
             let img = UIImage.gif(data: rememberedImageData[indexPath.row]!!)!
             (cell).imgView.image = img
-            cell.lblId?.text = "\(imageSetModel.images[index!]!.gifUrl.absoluteString)"
+            cell.lblId?.text = "\(imageSetModel.images[indexPath.row]!.gifUrl.absoluteString)"
             cell.progressBar.isHidden = true
             return cell
         }
-        else if imageSetModel.images[index!]!.data != nil {
-            let img = UIImage.gif(data: imageSetModel.images[index!]!.data!)
+        else if imageSetModel.images[indexPath.row]!.data != nil {
+            let img = UIImage.gif(data: imageSetModel.images[indexPath.row]!.data!)
             (cell).imgView.image = img
-            cell.lblId?.text = "\(imageSetModel.images[index!]!.gifUrl.absoluteString)"
+            cell.lblId?.text = "\(imageSetModel.images[indexPath.row]!.gifUrl.absoluteString)"
             cell.progressBar.isHidden = true
             return cell
         }
         else {
-            cell.lblId?.text = "\(imageSetModel.images[index!]!.gifUrl.absoluteString)"
+            cell.lblId?.text = "\(imageSetModel.images[indexPath.row]!.gifUrl.absoluteString)"
             cell.progressBar.isHidden = false
             return cell
         }
@@ -186,19 +178,11 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let _cell = cell as? CustomTableViewCell {
             if downloadProgress[indexPath.row] == nil {
-                var imgIndexes : [Int:String] = [:];
-                var i = 0;
-                for img in imageSetModel.images {
-                    imgIndexes[i] = img.key
-                    i += 1
-                }
-                
-                let cellModelIndex = imgIndexes[indexPath.row]
-                let cellModel = imageSetModel.images[cellModelIndex!]!
-                
+
+                let cellModel = imageSetModel.images[indexPath.row]!
                 
                 if cellModel.data == nil {
-                    downloadImageForPreviewCell(cellModel.gifUrl, at: indexPath, cellModel, _cell)
+//                    downloadImageForPreviewCell(cellModel.gifUrl, at: indexPath, cellModel, _cell)
                 }
             }
         }
@@ -210,22 +194,13 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
     
     var selectedImage : UIImage!
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var imgIndexes : [Int:String] = [:];
-        var i = 0;
-        for img in imageSetModel.images {
-            imgIndexes[i] = img.key
-            i += 1
-        }
-        
-        let cellModelIndex = imgIndexes[indexPath.row]
-        let cellModel = imageSetModel.images[cellModelIndex!]!
+        let cellModel = imageSetModel.images[indexPath.row]!
         
         if let cell = tableView.cellForRow(at: indexPath) {
             self.initMADialog(cell.frame)
         }
         
         if rememberedImageData[indexPath.row] != nil {
-            print(cellModelIndex!)
             getImageInfoByIdREST(cellModel.id)
         } else {
             return
@@ -236,14 +211,14 @@ class LightTableViewController: UIView, UITableViewDelegate, UITableViewDataSour
 
     
     
-    func imageDidFinishDownloading(imgData: Data, withId: String, url: URL, index_path: IndexPath) {
+    func imageDidFinishDownloading(imgData: Data, withId: String, url: URL, index_path: IndexPath, index: Int) {
         let imageModel = GifImageModel(id: withId,
                                        imgType: "gif",
                                        gifUrl: url,
                                        data: imgData,
-                                       progress: 1.0)
+                                       progress: 1.0, index: index)
         
-        if imageSetModel.images[withId] == nil {
+        if imageSetModel.images[index] == nil {
             print("this image set is nil.")
         } else {
             print("this image set has a value.")

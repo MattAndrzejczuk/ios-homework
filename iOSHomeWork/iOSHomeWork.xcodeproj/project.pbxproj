@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		322650DAB93F9FD2037EC56F /* GMPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265EED46ED600DD39B6E41 /* GMPalette.swift */; };
+		322657163480E0B10F226C9F /* RGCollectionViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265621C214E5A4BC59083B /* RGCollectionViewConfiguration.swift */; };
+		32265AAE54CC014CCD338EB0 /* RGCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265E4760A463084520288A /* RGCollectionView.swift */; };
+		32265CE68A6F96934C4E5B8F /* RGCollectionViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265119BF75378B0687E052 /* RGCollectionViewCells.swift */; };
 		32265FBFAFBADEE6288F59C4 /* GMColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265A7AF48C25D2B9D98696 /* GMColor.swift */; };
 		8BD0CED01DF0F4D000F7EFA2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0CECF1DF0F4D000F7EFA2 /* main.m */; };
 		8BD0CED31DF0F4D000F7EFA2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0CED21DF0F4D000F7EFA2 /* AppDelegate.m */; };
@@ -49,7 +52,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		32265119BF75378B0687E052 /* RGCollectionViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGCollectionViewCells.swift; sourceTree = "<group>"; };
+		32265621C214E5A4BC59083B /* RGCollectionViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGCollectionViewConfiguration.swift; sourceTree = "<group>"; };
 		32265A7AF48C25D2B9D98696 /* GMColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMColor.swift; sourceTree = "<group>"; };
+		32265E4760A463084520288A /* RGCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGCollectionView.swift; sourceTree = "<group>"; };
 		32265EED46ED600DD39B6E41 /* GMPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMPalette.swift; sourceTree = "<group>"; };
 		4EF64882ED244CD023E6FE9A /* Pods-iOSHomeWork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSHomeWork.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSHomeWork/Pods-iOSHomeWork.release.xcconfig"; sourceTree = "<group>"; };
 		6F2C861B4B45D44E6AF8AAD9 /* Pods-iOSHomeWork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSHomeWork.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSHomeWork/Pods-iOSHomeWork.debug.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +123,16 @@
 				32265EED46ED600DD39B6E41 /* GMPalette.swift */,
 			);
 			name = "Google Material Design";
+			sourceTree = "<group>";
+		};
+		32265C09158A533A61015116 /* RGCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				32265E4760A463084520288A /* RGCollectionView.swift */,
+				32265119BF75378B0687E052 /* RGCollectionViewCells.swift */,
+				32265621C214E5A4BC59083B /* RGCollectionViewConfiguration.swift */,
+			);
+			name = RGCollectionView;
 			sourceTree = "<group>";
 		};
 		393A2D5438005081784F8346 /* Frameworks */ = {
@@ -224,6 +240,7 @@
 				C838395A1E8C36C5004FFAB8 /* iOSHomeWork-Bridging-Header.h */,
 				C84835741E8CAB7D008FBA54 /* ColorTheme.config.swift */,
 				3226543F0C012F0F64752766 /* Google Material Design */,
+				32265C09158A533A61015116 /* RGCollectionView */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -439,6 +456,9 @@
 				C838395C1E8C36C6004FFAB8 /* MainViewController.swift in Sources */,
 				32265FBFAFBADEE6288F59C4 /* GMColor.swift in Sources */,
 				322650DAB93F9FD2037EC56F /* GMPalette.swift in Sources */,
+				32265AAE54CC014CCD338EB0 /* RGCollectionView.swift in Sources */,
+				32265CE68A6F96934C4E5B8F /* RGCollectionViewCells.swift in Sources */,
+				322657163480E0B10F226C9F /* RGCollectionViewConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

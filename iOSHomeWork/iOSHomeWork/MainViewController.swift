@@ -28,10 +28,8 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
 
     var api: GiphyApi! = GiphyApi()
 
-
-
     let buttonReloadConstraints = UIButton(frame: CGRect(x: 110, y: 400, width: 185, height: 180))
-    let ltv: LightTableViewController! = LightTableViewController(frame: CGRect(x: 50, y: 50, width: 100, height: 100))
+    let ltv: RGCollectionViewController! = RGCollectionViewController(frame: CGRect(x: 50, y: 50, width: 100, height: 100))
 
     let txtSearchBox: UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 80))
     let buttonSearch = UIButton(frame: CGRect(x: 75, y: 200, width: 150, height: 50))
@@ -49,7 +47,10 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "01-Stiff-Paper")!)
+//        view.backgroundColor = UIColor(patternImage: UIImage(named: "01-Stiff-Paper")!)
+
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "bg02")!)
+
         api.delegate = self
         txtSearchBox.delegate = self
         documentController.delegate = self
@@ -269,37 +270,6 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
                 constant: 20);
 
 
-        //Table View Controller Contraints
-        let cn11 = NSLayoutConstraint(item: ltv,
-                attribute: .top,
-                relatedBy: .equal,
-                toItem: view,
-                attribute: .bottomMargin,
-                multiplier: 1.0,
-                constant: 150);
-        let cn15 = NSLayoutConstraint(item: ltv,
-                attribute: .leading,
-                relatedBy: .equal,
-                toItem: view,
-                attribute: .leading,
-                multiplier: 1.0,
-                constant: 20);
-        let cn12 = NSLayoutConstraint(item: ltv,
-                attribute: .trailing,
-                relatedBy: .equal,
-                toItem: view,
-                attribute: .trailing,
-                multiplier: 1.0,
-                constant: -20);
-        let cn015 = NSLayoutConstraint(item: ltv,
-                attribute: .bottom,
-                relatedBy: .equal,
-                toItem: footerView,
-                attribute: .top,
-                multiplier: 1.0,
-                constant: -5);
-
-
         //Footer Section
         let cn16 = NSLayoutConstraint(item: footerView,
                 attribute: .leading,
@@ -322,13 +292,6 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
                 attribute: .notAnAttribute,
                 multiplier: 1.0,
                 constant: 50);
-        let cn20 = NSLayoutConstraint(item: ltv,
-                attribute: .top,
-                relatedBy: .equal,
-                toItem: headerView,
-                attribute: .bottom,
-                multiplier: 1.0,
-                constant: 0);
         let cn21 = NSLayoutConstraint(item: footerView,
                 attribute: .bottom,
                 relatedBy: .equal,
@@ -342,16 +305,45 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
         view.addConstraint(cn2)
         view.addConstraint(cn3)
         view.addConstraint(cn5)
-        view.addConstraint(cn11)
-        view.addConstraint(cn12)
-        view.addConstraint(cn15)
         view.addConstraint(cn16)
         view.addConstraint(cn17)
         view.addConstraint(cn18)
-        view.addConstraint(cn20)
         view.addConstraint(cn21)
-        view.addConstraint(cn015)
         initSearchButton()
+
+
+
+        ltv.translatesAutoresizingMaskIntoConstraints = false
+
+        //Table View Controller Contraints
+        NSLayoutConstraint(item: ltv,
+                attribute: .top,
+                relatedBy: .equal,
+                toItem: headerView,
+                attribute: .bottom,
+                multiplier: 1.0,
+                constant: 15).isActive = true;
+        NSLayoutConstraint(item: ltv,
+                attribute: .leading,
+                relatedBy: .equal,
+                toItem: view,
+                attribute: .leading,
+                multiplier: 1.0,
+                constant: 20).isActive = true;
+        NSLayoutConstraint(item: ltv,
+                attribute: .trailing,
+                relatedBy: .equal,
+                toItem: view,
+                attribute: .trailing,
+                multiplier: 1.0,
+                constant: -20).isActive = true;
+        NSLayoutConstraint(item: ltv,
+                attribute: .bottom,
+                relatedBy: .equal,
+                toItem: footerView,
+                attribute: .top,
+                multiplier: 1.0,
+                constant: -5).isActive = true;
     }
 
 
@@ -377,7 +369,7 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
         self.ltv!.rememberedImageInstance = [:]
         self.ltv!.downloadProgress = [:]
         ltv!.imageSetModel = GifImageSetModel()
-        self.ltv!.mainTableView.reloadData();
+        self.ltv!.rgCollectionView.reloadData();
     }
 
     var currentSearchText = ""
@@ -394,17 +386,11 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
 
         let captionString = "caption"
 
-
-
-
         self.documentController.uti = "com.instagram.exlusivegram"
 
         self.documentController.annotation = NSDictionary(object: captionString, forKey: "InstagramCaption" as NSCopying)
         //            self.documentController.presentOpenInMenuFromRect(self.frame, inView: self, animated: true)
         self.documentController.presentOpenInMenu(from: (self.view.frame), in: self.view, animated: true)
-
-
-
 
         do {
             try imageData?.write(to: URL(fileURLWithPath: (NSTemporaryDirectory() as NSString).appendingPathComponent("instagram.igo")))
@@ -462,11 +448,12 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
                             imgType: giphyType,
                             gifUrl: URL(string: generatedUrl)!,
                             data: nil,
-                            progress: 0);
+                            progress: 0,
+                            index: ltv!.imageSetModel.images.count);
                     ltv?.imageSetModel = GifImageSetModel(addImage: imageStruct, toSet: ltv!.imageSetModel);
                     if i == (arrayLength - 1) {
                         self.ltv?.downloadProgress = [:]
-                        self.ltv?.mainTableView.reloadData();
+                        self.ltv?.rgCollectionView.reloadData();
                     }
 
                 } else {
@@ -486,11 +473,12 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
                             imgType: giphyType,
                             gifUrl: URL(string: generatedUrl)!,
                             data: nil,
-                            progress: 0);
+                            progress: 0,
+                            index: ltv!.imageSetModel.images.count);
                     ltv?.imageSetModel = GifImageSetModel(addImage: imageStruct, toSet: ltv!.imageSetModel);
                     if i == (arrayLength - 1) {
                         self.ltv?.downloadProgress = [:]
-                        self.ltv?.mainTableView.reloadData();
+                        self.ltv?.rgCollectionView.reloadData();
                     }
                 }
 

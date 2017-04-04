@@ -14,12 +14,9 @@ import SwiftyJSON
 
 
 extension LightTableViewController {
-    
-    
-    
-    
+
     // DOWNLOAD IMAGE FOR PREVIEW ON TABLE VIEW:
-    func downloadImageForPreviewCell(_ gifUrl: URL, at: IndexPath, _ model: GifImageModel, _ _cell: CustomTableViewCell) {
+    func downloadImageForPreviewCell(_ gifUrl: URL, at: IndexPath, _ model: GifImageModel, _ _cell: RGCellProgress) {
         Alamofire.request(gifUrl,
                           method: .get,
                           parameters: nil,
@@ -30,12 +27,10 @@ extension LightTableViewController {
                 if progress.fractionCompleted >= 1 {
                     DispatchQueue.main.async {
                         _cell.progressBar.setProgress(0.0, animated: false)
-                        _cell.progressBar.isHidden = true
                         self.downloadProgress[at.row] = progress.fractionCompleted
                     }                            } else {
                     DispatchQueue.main.async {
                         _cell.progressBar.setProgress(Float(progress.fractionCompleted), animated: false)
-                        _cell.progressBar.isHidden = false
                         self.downloadProgress[at.row] = progress.fractionCompleted
                     }
                 }
@@ -48,7 +43,7 @@ extension LightTableViewController {
                     self.imageDidFinishDownloading(imgData: data,
                                                    withId: model.id,
                                                    url: model.gifUrl,
-                                                   index_path: at)
+                                                   index_path: at, index: model.index)
                 } else {
                     print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
                 }

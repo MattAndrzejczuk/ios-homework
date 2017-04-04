@@ -11,7 +11,7 @@ import Foundation
 
 
 struct GifImageSetModel {
-    let images: [String:GifImageModel]
+    let images: [Int:GifImageModel]
     
     init() {
         images = [:]
@@ -19,13 +19,13 @@ struct GifImageSetModel {
     
     init(addImage: GifImageModel, toSet: GifImageSetModel) {
         var oldSetImages = toSet.images
-        oldSetImages[addImage.id] = addImage
+        oldSetImages[addImage.index] = addImage
         images = oldSetImages
     }
     
     init(updateImage: GifImageModel, withId: String, inSet: GifImageSetModel) {
         var oldSetImages = inSet.images
-        oldSetImages[withId] = updateImage
+        oldSetImages[updateImage.index] = updateImage
         images = oldSetImages
     }
 }
@@ -37,4 +37,5 @@ struct GifImageModel {
     let gifUrl : URL
     let data : Data?
     let progress : Double
+    let index : Int
 }
