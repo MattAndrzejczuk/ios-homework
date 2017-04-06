@@ -94,6 +94,7 @@ extension MainViewController {
         
         
         txtSearchBox.placeholder = "Search Keywords"
+        
     }
     
     
