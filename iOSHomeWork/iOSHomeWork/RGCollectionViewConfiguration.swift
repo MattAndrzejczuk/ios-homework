@@ -13,7 +13,8 @@ extension RGCollectionViewController {
     func initConfiguration() {
 //        backgroundColor = UIColor(patternImage: UIImage(named: "bg01")!)
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 150, height: 150)
+        layout.itemSize = CGSize(width: 175, height: 175)
+        layout.estimatedItemSize = CGSize(width: 175, height: 175)
         rgCollectionView = UICollectionView(frame: SCREEN, collectionViewLayout: layout)
 
         rgCollectionView.backgroundColor = .clear
