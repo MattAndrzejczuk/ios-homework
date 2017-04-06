@@ -20,6 +20,7 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
 
     var headerView: UIView?
     var dataView: UIView?
+//    var ltvShadow : UIView?
     var footerView: UIView?
 
     let documentController: UIDocumentInteractionController = UIDocumentInteractionController(
@@ -29,7 +30,7 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
     var api: GiphyApi! = GiphyApi()
 
     let buttonReloadConstraints = UIButton(frame: CGRect(x: 110, y: 400, width: 185, height: 180))
-    let ltv: RGCollectionViewController! = RGCollectionViewController(frame: CGRect(x: 50, y: 50, width: 100, height: 100))
+    var ltv: RGCollectionViewController! = RGCollectionViewController(frame: CGRect(x: 50, y: 50, width: 100, height: 100))
 
     let txtSearchBox: UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 80))
     let buttonSearch = UIButton(frame: CGRect(x: 75, y: 200, width: 150, height: 50))
@@ -49,7 +50,7 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
         // Do any additional setup after loading the view, typically from a nib.
 //        view.backgroundColor = UIColor(patternImage: UIImage(named: "01-Stiff-Paper")!)
 
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "bg02")!)
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "bg01")!)
 
         api.delegate = self
         txtSearchBox.delegate = self
@@ -58,18 +59,28 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
 
         let genericFrame = CGRect(x: 0, y: 0, width: 300, height: 50)
         headerView = UILabel(frame: genericFrame)
-        dataView = UIView(frame: genericFrame)
+//        dataView = UIView(frame: genericFrame)
+        ltv = RGCollectionViewController(frame: genericFrame)
         footerView = UIView(frame: genericFrame)
         footerView?.isHidden = true
 
+
+        ltv!.layer.shadowColor = UIColor.black.cgColor
+        ltv!.layer.shadowOffset = CGSize.zero
+        ltv!.layer.shadowOpacity = 0.5
+        ltv!.layer.shadowRadius = 5
+
         autolayoutUsingConstraint()
+
+
     }
 
     func initUI() {
         footerView?.backgroundColor = .gray
 
         headerView?.translatesAutoresizingMaskIntoConstraints = false
-        dataView?.translatesAutoresizingMaskIntoConstraints = false
+        ltv?.translatesAutoresizingMaskIntoConstraints = false
+//        ltv?.clipsToBounds = true
         footerView?.translatesAutoresizingMaskIntoConstraints = false
         buttonSearch.translatesAutoresizingMaskIntoConstraints = false
         txtSearchBox.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +95,9 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
             view.addSubview(footer)
         }
 
-        view.addSubview(ltv)
+        view.addSubview(ltv!)
+//        ltv?.addSubview(ltv)
+        ltv.bringSubview(toFront: view)
         view.addSubview(buttonSearch)
         view.addSubview(txtSearchBox)
         view.addSubview(buttonClearResults)
@@ -329,14 +342,14 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
                 toItem: view,
                 attribute: .leading,
                 multiplier: 1.0,
-                constant: 20).isActive = true;
+                constant: 1).isActive = true;
         NSLayoutConstraint(item: ltv,
                 attribute: .trailing,
                 relatedBy: .equal,
                 toItem: view,
                 attribute: .trailing,
                 multiplier: 1.0,
-                constant: -20).isActive = true;
+                constant: -1).isActive = true;
         NSLayoutConstraint(item: ltv,
                 attribute: .bottom,
                 relatedBy: .equal,

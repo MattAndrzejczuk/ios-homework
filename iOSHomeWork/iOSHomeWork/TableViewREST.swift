@@ -26,8 +26,8 @@ extension LightTableViewController {
                 
                 if progress.fractionCompleted >= 1 {
                     DispatchQueue.main.async {
-                        _cell.progressBar.setProgress(0.0, animated: false)
-                        self.downloadProgress[at.row] = progress.fractionCompleted
+                        _cell.progressBar.setProgress(1.0, animated: false)
+                        self.downloadProgress[at.row] = 1.0
                     }                            } else {
                     DispatchQueue.main.async {
                         _cell.progressBar.setProgress(Float(progress.fractionCompleted), animated: false)

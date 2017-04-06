@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "prog.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "01-Stiff-Paper.png",
+      "filename" : "progressPattern-1.png",
       "scale" : "2x"
     },
     {
