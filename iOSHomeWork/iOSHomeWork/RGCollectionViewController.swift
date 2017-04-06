@@ -10,7 +10,7 @@ import SwiftyJSON
 
 // UIFont(name: "AvenirNext-UltraLight", size: 17)
 
-class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
+class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate {
 
     var rgCollectionView: UICollectionView!
     var delegate: MainViewController?
@@ -29,6 +29,13 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
     var modalOrigin: CGRect?
     var viewLayer2: UIView?
 
+    var selectedIndex : IndexPath?
+    var popUpModal: PresentPopUpModal?
+    var dialogIsOpened: Bool! = false
+    
+    var imgView = UIImageView()
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initConfiguration()
@@ -64,10 +71,75 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
     }
 
 
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let pum = popUpModal {
+            if dialogIsOpened == true {
+                
+                if let i = selectedIndex {
+                    let cell: UICollectionViewCell = rgCollectionView.dequeueReusableCell(withReuseIdentifier: "image", for: i) as! RGCellImage
+                    
+                    UIView.animate(withDuration: 0.5, animations: {_ in
+                        self.imgView.alpha = 0.0
+                        pum.dialogModal.alpha = 0.0
+                    }, completion: {_ in
+                        self.dialogIsOpened = false
+                        self.imgView.removeFromSuperview()
+                        pum.dialogModal.removeFromSuperview()
+                    })
+                }
+            }
+        }
+    }
 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+
+        
+        
+        if dialogIsOpened == false {
+            dialogIsOpened = true
+            selectedIndex = indexPath
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "image", for: indexPath) as! RGCellImage
+            
+            
+            
+            
+            popUpModal = PresentPopUpModal(onView: self)
+            popUpModal?.dialogModal.frame.origin.y = (cell.frame.origin.y - collectionView.contentOffset.y) + collectionView.frame.origin.y
+            popUpModal?.dialogModal.frame.origin.x = (cell.frame.origin.x - collectionView.contentOffset.x) + collectionView.frame.origin.x
+            popUpModal?.dialogModal.frame.size.width = cell.frame.size.width
+            popUpModal?.dialogModal.frame.size.height = cell.frame.size.height
+            
+            
+            UIView.animate(withDuration: 0.5, animations: {_ in
+                let newT = self.popUpModal!.dialogModal.transform.scaledBy(x: 2, y: -2);
+                self.popUpModal!.dialogModal.transform = newT
+                self.popUpModal!.dialogModal.center = self.center
+            }, completion: {_ in
+                self.dialogIsOpened = true
+                
+                let fullImageSize = self.imageSetModel.images[indexPath.row]!.rgJson.images.original.url
+                self.imgView = UIImageView(frame: self.popUpModal!.dialogModal.frame)
+                self.imgView.frame = self.popUpModal!.dialogModal.frame
+                self.imgView.frame.size.width -= 25
+                self.imgView.frame.size.height -= 25
+                self.imgView.center = self.popUpModal!.dialogModal.center
+                self.addSubview(self.imgView)
+                self.downloadImageFullSize(URL(string: "\(fullImageSize)")!)
+            })
+
+        } else {
+            UIView.animate(withDuration: 0.5, animations: {_ in
+                self.imgView.alpha = 0.0
+                self.popUpModal!.dialogModal.alpha = 0.0
+            }, completion: {_ in
+                self.dialogIsOpened = false
+                self.imgView.removeFromSuperview()
+                self.popUpModal!.dialogModal.removeFromSuperview()
+            })
+            return
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -103,6 +175,46 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
         }
     }
 
+    
+    
+    func downloadImageFullSize(_ gifUrl: URL) {
+        Alamofire.request(gifUrl,
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default)
+            .downloadProgress(queue: DispatchQueue.global(qos: .utility))
+            { progress in
+                print(".", terminator:"")
+//                if progress.fractionCompleted >= 1 {
+//                    DispatchQueue.main.async {
+//                        _cell.progressBar.setProgress(1.0, animated: true)
+//                        self.downloadProgress[at.row] = 1.0
+//                    }
+//                    return
+//                } else {
+//                    DispatchQueue.main.async {
+//                        _cell.progressBar.setProgress(Float(progress.fractionCompleted), animated: true)
+//                        self.downloadProgress[at.row] = progress.fractionCompleted
+//                    }
+//                    return
+//                }
+            }
+            .validate { request, response, data in
+                return .success
+            }
+            .responseJSON { response in
+                if let data = response.data {
+                    self.imageFullSizeDidFinishDownloading(imgData: data)
+                } else {
+                    print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
+                }
+        }
+    }
+    
+    func imageFullSizeDidFinishDownloading(imgData: Data) {
+        let imgGif = UIImage.gif(data: imgData)!
+        self.imgView.image = imgGif
+    }
 
 //    func collectionView(_ collectionView: UICollectionView)
 
@@ -117,14 +229,12 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
                     if progress.fractionCompleted >= 1 {
                         DispatchQueue.main.async {
                             _cell.progressBar.setProgress(1.0, animated: true)
-//                            _cell.progressBar.isHidden = true
                             self.downloadProgress[at.row] = 1.0
                         }
                         return
                     } else {
                         DispatchQueue.main.async {
                             _cell.progressBar.setProgress(Float(progress.fractionCompleted), animated: true)
-//                            _cell.progressBar.isHidden = false
                             self.downloadProgress[at.row] = progress.fractionCompleted
                         }
                         return

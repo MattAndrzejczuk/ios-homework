@@ -48,6 +48,8 @@ class RGCellImage: UICollectionViewCell {
                 constant: -30).isActive = true;
 
 
+        layer.cornerRadius = 10.0
+        layer.borderWidth = 0.0
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -66,10 +68,12 @@ class RGCellProgress: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         progressBar = UIProgressView(frame: frame)
-//        backgroundColor = GMColor.green800Color()
+        backgroundColor = GMColor.green100Color()
         contentView.addSubview(progressBar)
         progressBar.setProgress(0.0, animated: false)
         progressBar.translatesAutoresizingMaskIntoConstraints = false
+        layer.cornerRadius = 10.0
+        layer.borderWidth = 0.0
         NSLayoutConstraint(item: progressBar,
                 attribute: .top,
                 relatedBy: .equal,
@@ -84,13 +88,13 @@ class RGCellProgress: UICollectionViewCell {
                 attribute: .leading,
                 multiplier: 1.0,
                 constant: 3).isActive = true;
-//        NSLayoutConstraint(item: progressBar,
-//                attribute: .trailing,
-//                relatedBy: .equal,
-//                toItem: contentView,
-//                attribute: .trailing,
-//                multiplier: 1.0,
-//                constant: -80).isActive = true;
+        NSLayoutConstraint(item: progressBar,
+                attribute: .trailing,
+                relatedBy: .equal,
+                toItem: contentView,
+                attribute: .trailing,
+                multiplier: 1.0,
+                constant: -80).isActive = true;
         NSLayoutConstraint(item: progressBar,
                 attribute: .bottom,
                 relatedBy: .equal,
@@ -98,20 +102,20 @@ class RGCellProgress: UICollectionViewCell {
                 attribute: .top,
                 multiplier: 1.0,
                 constant: 35).isActive = true;
-        NSLayoutConstraint(item: progressBar,
-                attribute: .height,
-                relatedBy: .equal,
-                toItem: nil,
-                attribute: .notAnAttribute,
-                multiplier: 1.0,
-                constant: 16).isActive = true;
-        NSLayoutConstraint(item: progressBar,
-                attribute: .width,
-                relatedBy: .equal,
-                toItem: nil,
-                attribute: .notAnAttribute,
-                multiplier: 1.0,
-                constant: 100).isActive = true;
+//        NSLayoutConstraint(item: progressBar,
+//                attribute: .height,
+//                relatedBy: .equal,
+//                toItem: nil,
+//                attribute: .notAnAttribute,
+//                multiplier: 1.0,
+//                constant: 16).isActive = true;
+//        NSLayoutConstraint(item: progressBar,
+//                attribute: .width,
+//                relatedBy: .equal,
+//                toItem: nil,
+//                attribute: .notAnAttribute,
+//                multiplier: 1.0,
+//                constant: 100).isActive = true;
 
         progressBar.progressImage = UIImage(named: "progressCompleted-1")
         progressBar.trackImage = UIImage(named: "progress-1")

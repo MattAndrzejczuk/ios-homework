@@ -20,23 +20,26 @@ extension MainViewController {
         api.delegate = self
         txtSearchBox.delegate = self
         documentController.delegate = self
-        ltv.delegate = self
+        rgCollectionView.delegate = self
         
         let genericFrame = CGRect(x: 0, y: 0, width: 300, height: 50)
         headerView = UILabel(frame: genericFrame)
-        ltv = RGCollectionViewController(frame: genericFrame)
+        rgCollectionView = RGCollectionViewController(frame: genericFrame)
         footerView = UIView(frame: genericFrame)
         footerView?.isHidden = true
         
-        ltv!.layer.shadowColor = UIColor.black.cgColor
-        ltv!.layer.shadowOffset = CGSize.zero
-        ltv!.layer.shadowOpacity = 0.5
-        ltv!.layer.shadowRadius = 5
+        rgCollectionView!.layer.shadowColor = UIColor.black.cgColor
+        rgCollectionView!.layer.shadowOffset = CGSize.zero
+        rgCollectionView!.layer.shadowOpacity = 0.5
+        rgCollectionView!.layer.shadowRadius = 5
+        
         let gradient = CAGradientLayer()
         gradient.frame = view.bounds
+        gradient.frame.size.width = gradient.frame.size.width * 2
+        gradient.frame.size.height = gradient.frame.size.height * 2
         gradient.colors = [GMColor.tealA700Color().cgColor, GMColor.tealA100Color().cgColor]
-        ltv.layer.insertSublayer(gradient, at: 0)
-        ltv!.rgCollectionView.backgroundColor = UIColor(patternImage: UIImage(named: "rubber-grip")!)
+        rgCollectionView.layer.insertSublayer(gradient, at: 0)
+        rgCollectionView!.rgCollectionView.backgroundColor = UIColor(patternImage: UIImage(named: "rubber-grip")!)
         
         autolayoutUsingConstraint()
     }
@@ -45,12 +48,12 @@ extension MainViewController {
         footerView?.backgroundColor = .gray
         
         headerView?.translatesAutoresizingMaskIntoConstraints = false
-        ltv?.translatesAutoresizingMaskIntoConstraints = false
-        //        ltv?.clipsToBounds = true
+        rgCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        //        rgCollectionView?.clipsToBounds = true
         footerView?.translatesAutoresizingMaskIntoConstraints = false
         buttonSearch.translatesAutoresizingMaskIntoConstraints = false
         txtSearchBox.translatesAutoresizingMaskIntoConstraints = false
-        buttonClearResults.translatesAutoresizingMaskIntoConstraints = false
+//        buttonClearResults.translatesAutoresizingMaskIntoConstraints = false
         btnShowMore.translatesAutoresizingMaskIntoConstraints = false
         
         if let header = headerView {
@@ -61,12 +64,12 @@ extension MainViewController {
             view.addSubview(footer)
         }
         
-        view.addSubview(ltv!)
-        //        ltv?.addSubview(ltv)
-        ltv.bringSubview(toFront: view)
+        view.addSubview(rgCollectionView!)
+        //        rgCollectionView?.addSubview(rgCollectionView)
+        rgCollectionView.bringSubview(toFront: view)
         view.addSubview(buttonSearch)
         view.addSubview(txtSearchBox)
-        view.addSubview(buttonClearResults)
+//        view.addSubview(buttonClearResults)
         view.addSubview(btnShowMore)
         
         buttonSearch.setTitle("Search", for: .normal)
@@ -76,11 +79,11 @@ extension MainViewController {
         buttonSearch.setTitleColor(GMColor.deepOrange900Color(), for: .normal)
         
         
-        buttonClearResults.setTitle("Clear Results", for: .normal)
-        buttonClearResults.addTarget(self,
-                                     action: #selector(MainViewController.clearTableViewData),
-                                     for: .touchUpInside)
-        buttonClearResults.setTitleColor(GMColor.deepOrange900Color(), for: .normal)
+//        buttonClearResults.setTitle("Clear Results", for: .normal)
+//        buttonClearResults.addTarget(self,
+//                                     action: #selector(MainViewController.clearTableViewData),
+//                                     for: .touchUpInside)
+//        buttonClearResults.setTitleColor(GMColor.deepOrange900Color(), for: .normal)
         
         
         btnShowMore.setTitle("Load More", for: .normal)
@@ -154,29 +157,29 @@ extension MainViewController {
                            constant: 0).isActive = true
         
         //
-        NSLayoutConstraint(item: buttonClearResults,
-                           attribute: .top,
-                           relatedBy: .equal,
-                           toItem: footerView,
-                           attribute: .top,
-                           multiplier: 1.0,
-                           constant: 0).isActive = true
-        
-        NSLayoutConstraint(item: buttonClearResults,
-                           attribute: .trailing,
-                           relatedBy: .equal,
-                           toItem: footerView,
-                           attribute: .trailing,
-                           multiplier: 1.0,
-                           constant: -40).isActive = true
-        
-        NSLayoutConstraint(item: buttonClearResults,
-                           attribute: .centerY,
-                           relatedBy: .equal,
-                           toItem: footerView,
-                           attribute: .centerY,
-                           multiplier: 1.0,
-                           constant: 0).isActive = true
+//        NSLayoutConstraint(item: buttonClearResults,
+//                           attribute: .top,
+//                           relatedBy: .equal,
+//                           toItem: footerView,
+//                           attribute: .top,
+//                           multiplier: 1.0,
+//                           constant: 0).isActive = true
+//        
+//        NSLayoutConstraint(item: buttonClearResults,
+//                           attribute: .trailing,
+//                           relatedBy: .equal,
+//                           toItem: footerView,
+//                           attribute: .trailing,
+//                           multiplier: 1.0,
+//                           constant: -40).isActive = true
+//        
+//        NSLayoutConstraint(item: buttonClearResults,
+//                           attribute: .centerY,
+//                           relatedBy: .equal,
+//                           toItem: footerView,
+//                           attribute: .centerY,
+//                           multiplier: 1.0,
+//                           constant: 0).isActive = true
         
         //
         //        NSLayoutConstraint(item: btnShowMore,
@@ -284,31 +287,31 @@ extension MainViewController {
         
         
         
-        ltv.translatesAutoresizingMaskIntoConstraints = false
+        rgCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         //Table View Controller Contraints
-        NSLayoutConstraint(item: ltv,
+        NSLayoutConstraint(item: rgCollectionView,
                            attribute: .top,
                            relatedBy: .equal,
                            toItem: view,
                            attribute: .top,
                            multiplier: 1.0,
                            constant: 0).isActive = true;
-        NSLayoutConstraint(item: ltv,
+        NSLayoutConstraint(item: rgCollectionView,
                            attribute: .leading,
                            relatedBy: .equal,
                            toItem: view,
                            attribute: .leading,
                            multiplier: 1.0,
                            constant: 0).isActive = true;
-        NSLayoutConstraint(item: ltv,
+        NSLayoutConstraint(item: rgCollectionView,
                            attribute: .trailing,
                            relatedBy: .equal,
                            toItem: view,
                            attribute: .trailing,
                            multiplier: 1.0,
                            constant: 0).isActive = true;
-        NSLayoutConstraint(item: ltv,
+        NSLayoutConstraint(item: rgCollectionView,
                            attribute: .bottom,
                            relatedBy: .equal,
                            toItem: view,

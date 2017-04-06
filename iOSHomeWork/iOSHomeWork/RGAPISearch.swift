@@ -20,7 +20,7 @@ extension MainViewController {
         txtSearchBox.resignFirstResponder()
         clearTableViewData()
         if let text = txtSearchBox.text {
-            currentSearchText = text
+            currentSearchText = text.replacingOccurrences(of: " ", with: "+")
             api.search(keyword: text, pagination: paginationOffset)
             paginationOffset += 1
         }
@@ -43,7 +43,13 @@ extension MainViewController {
                     let thisData = jdata[i].rawString()!
                     
                     let instance = RGDataObject().deserializeRGDataObject(strJson: thisData)
-                    let generatedUrl = instance.images.downsized.url
+                    var generatedUrl = instance.images.previewGif.url
+                    if generatedUrl == "nan" {
+                        generatedUrl = instance.images.fixedHeightSmall.url
+                        if generatedUrl == "nan" {
+                            generatedUrl = instance.images.original.url
+                        }
+                    }
                     let giphyId = instance.id
                     let giphyType = instance.type
                     
@@ -52,13 +58,13 @@ extension MainViewController {
                                                       gifUrl: URL(string: generatedUrl)!,
                                                       data: nil,
                                                       progress: 0,
-                                                      index: ltv!.imageSetModel.images.count,
+                                                      index: rgCollectionView!.imageSetModel.images.count,
                                                       rgJson: instance);
-                    ltv?.imageSetModel = RGGifImageSetModel(addImage: imageStruct, toSet: ltv!.imageSetModel);
+                    rgCollectionView?.imageSetModel = RGGifImageSetModel(addImage: imageStruct, toSet: rgCollectionView!.imageSetModel);
                     
                     if i == (arrayLength - 1) {
-                        self.ltv?.downloadProgress = [:]
-                        self.ltv?.rgCollectionView.reloadData();
+                        self.rgCollectionView?.downloadProgress = [:]
+                        self.rgCollectionView?.rgCollectionView.reloadData();
                     }
                 }
             }
