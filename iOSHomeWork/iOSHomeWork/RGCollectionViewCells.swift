@@ -12,9 +12,8 @@ class RGCellImage: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         tintColor = GMColor.amber500Color()
-        backgroundColor = UIColor(patternImage: (UIImage(named: "bg02")!))
+        backgroundColor = UIColor(patternImage: (UIImage(named: "natural-paper")!))
         imageView = UIImageView(frame: CGRect(x:0, y:0, width:100,height:100))
-
 
         contentView.addSubview(imageView)
         isOpaque = true
@@ -67,7 +66,7 @@ class RGCellProgress: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         progressBar = UIProgressView(frame: frame)
-        backgroundColor = GMColor.green800Color()
+//        backgroundColor = GMColor.green800Color()
         contentView.addSubview(progressBar)
         progressBar.setProgress(0.0, animated: false)
         progressBar.translatesAutoresizingMaskIntoConstraints = false
