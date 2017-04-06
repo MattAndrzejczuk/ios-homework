@@ -2,6 +2,11 @@
 
 >Matt Andrzejczuk
 
+
+
+![alt tag](https://github.com/MattAndrzejczuk/ios-homework/blob/master/demohw.gif?raw=true)
+
+
 ## Project
 
 This is forked from this repo: https://github.com/eaze/ios-homework
