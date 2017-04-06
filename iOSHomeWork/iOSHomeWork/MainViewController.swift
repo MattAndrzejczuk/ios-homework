@@ -50,7 +50,7 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
         // Do any additional setup after loading the view, typically from a nib.
 //        view.backgroundColor = UIColor(patternImage: UIImage(named: "01-Stiff-Paper")!)
 
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "bg01")!)
+//        view.backgroundColor = GMColor.teal700Color()
 
         api.delegate = self
         txtSearchBox.delegate = self
@@ -69,6 +69,11 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
         ltv!.layer.shadowOffset = CGSize.zero
         ltv!.layer.shadowOpacity = 0.5
         ltv!.layer.shadowRadius = 5
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = [GMColor.tealA700Color().cgColor, GMColor.teal100Color().cgColor]
+        ltv.layer.insertSublayer(gradient, at: 0)
+        ltv!.rgCollectionView.backgroundColor = UIColor(patternImage: UIImage(named: "rubber-grip")!)
 
         autolayoutUsingConstraint()
 
@@ -107,21 +112,21 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
         buttonSearch.addTarget(self,
                 action: #selector(MainViewController.didPressSearch),
                 for: .touchUpInside)
-        buttonSearch.setTitleColor(.blue, for: .normal)
+        buttonSearch.setTitleColor(GMColor.deepOrange900Color(), for: .normal)
 
 
         buttonClearResults.setTitle("Clear Results", for: .normal)
         buttonClearResults.addTarget(self,
                 action: #selector(MainViewController.clearTableViewData),
                 for: .touchUpInside)
-        buttonClearResults.setTitleColor(.blue, for: .normal)
+        buttonClearResults.setTitleColor(GMColor.deepOrange900Color(), for: .normal)
 
 
         btnShowMore.setTitle("Load More", for: .normal)
         btnShowMore.addTarget(self,
                 action: #selector(MainViewController.loadMoreResults),
                 for: .touchUpInside)
-        btnShowMore.setTitleColor(.blue, for: .normal)
+        btnShowMore.setTitleColor(GMColor.deepOrange900Color(), for: .normal)
 
 
         txtSearchBox.placeholder = "Search Keywords"
@@ -332,31 +337,31 @@ class MainViewController: UIViewController, GiphyDelegate, UITextFieldDelegate, 
         NSLayoutConstraint(item: ltv,
                 attribute: .top,
                 relatedBy: .equal,
-                toItem: headerView,
-                attribute: .bottom,
-                multiplier: 1.0,
-                constant: 15).isActive = true;
-        NSLayoutConstraint(item: ltv,
-                attribute: .leading,
-                relatedBy: .equal,
                 toItem: view,
-                attribute: .leading,
-                multiplier: 1.0,
-                constant: 1).isActive = true;
-        NSLayoutConstraint(item: ltv,
-                attribute: .trailing,
-                relatedBy: .equal,
-                toItem: view,
-                attribute: .trailing,
-                multiplier: 1.0,
-                constant: -1).isActive = true;
-        NSLayoutConstraint(item: ltv,
-                attribute: .bottom,
-                relatedBy: .equal,
-                toItem: footerView,
                 attribute: .top,
                 multiplier: 1.0,
-                constant: -5).isActive = true;
+                constant: 0).isActive = true;
+        NSLayoutConstraint(item: ltv,
+                attribute: .leading,
+                relatedBy: .equal,
+                toItem: view,
+                attribute: .leading,
+                multiplier: 1.0,
+                constant: 0).isActive = true;
+        NSLayoutConstraint(item: ltv,
+                attribute: .trailing,
+                relatedBy: .equal,
+                toItem: view,
+                attribute: .trailing,
+                multiplier: 1.0,
+                constant: 0).isActive = true;
+        NSLayoutConstraint(item: ltv,
+                attribute: .bottom,
+                relatedBy: .equal,
+                toItem: view,
+                attribute: .bottom,
+                multiplier: 1.0,
+                constant: 0).isActive = true;
     }
 
 

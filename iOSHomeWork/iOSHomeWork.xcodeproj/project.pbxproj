@@ -23,15 +23,11 @@
 		9EC2A922457C1D53DE0E445C /* Pods_iOSHomeWork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B6A8B9DB83697EBF196257 /* Pods_iOSHomeWork.framework */; };
 		C80DFA8A1E8EBFAB00E3793E /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80DFA891E8EBFAB00E3793E /* GifImage.swift */; };
 		C82EA6DA1E8C49CC00EFB3EB /* GiphyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */; };
-		C82EA6DC1E8C605D00EFB3EB /* RGTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82EA6DB1E8C605D00EFB3EB /* RGTableViewController.swift */; };
 		C838395C1E8C36C6004FFAB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C838395B1E8C36C6004FFAB8 /* MainViewController.swift */; };
 		C847E4A81E90EF1E008BE04D /* RGBaseImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C847E4A71E90EF1E008BE04D /* RGBaseImage.swift */; };
 		C847E4AA1E90EF8A008BE04D /* RGImageVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C847E4A91E90EF8A008BE04D /* RGImageVariant.swift */; };
 		C847E4AC1E90EFCD008BE04D /* RGDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C847E4AB1E90EFCD008BE04D /* RGDataObject.swift */; };
 		C84835751E8CAB7D008FBA54 /* ColorTheme.config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84835741E8CAB7D008FBA54 /* ColorTheme.config.swift */; };
-		C85467B51E8CDDA0009A9594 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85467B41E8CDDA0009A9594 /* CustomTableViewCell.swift */; };
-		C8B1A4811E919D3600A53C0D /* TableViewREST.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B1A4801E919D3600A53C0D /* TableViewREST.swift */; };
-		C8B1A4831E91A07300A53C0D /* MADialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B1A4821E91A07300A53C0D /* MADialogView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,16 +74,12 @@
 		90B6A8B9DB83697EBF196257 /* Pods_iOSHomeWork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSHomeWork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80DFA891E8EBFAB00E3793E /* GifImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
 		C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyApi.swift; sourceTree = "<group>"; };
-		C82EA6DB1E8C605D00EFB3EB /* RGTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGTableViewController.swift; sourceTree = "<group>"; };
 		C838395A1E8C36C5004FFAB8 /* iOSHomeWork-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSHomeWork-Bridging-Header.h"; sourceTree = "<group>"; };
 		C838395B1E8C36C6004FFAB8 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C847E4A71E90EF1E008BE04D /* RGBaseImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBaseImage.swift; sourceTree = "<group>"; };
 		C847E4A91E90EF8A008BE04D /* RGImageVariant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGImageVariant.swift; sourceTree = "<group>"; };
 		C847E4AB1E90EFCD008BE04D /* RGDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGDataObject.swift; sourceTree = "<group>"; };
 		C84835741E8CAB7D008FBA54 /* ColorTheme.config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTheme.config.swift; sourceTree = "<group>"; };
-		C85467B41E8CDDA0009A9594 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
-		C8B1A4801E919D3600A53C0D /* TableViewREST.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewREST.swift; sourceTree = "<group>"; };
-		C8B1A4821E91A07300A53C0D /* MADialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MADialogView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,10 +225,6 @@
 				C80DFA881E8EBF8D00E3793E /* Models */,
 				C82EA6D81E8C498D00EFB3EB /* Giphy */,
 				C838395B1E8C36C6004FFAB8 /* MainViewController.swift */,
-				C82EA6DB1E8C605D00EFB3EB /* RGTableViewController.swift */,
-				C8B1A4801E919D3600A53C0D /* TableViewREST.swift */,
-				C85467B41E8CDDA0009A9594 /* CustomTableViewCell.swift */,
-				C8B1A4821E91A07300A53C0D /* MADialogView.swift */,
 				C838395A1E8C36C5004FFAB8 /* iOSHomeWork-Bridging-Header.h */,
 				C84835741E8CAB7D008FBA54 /* ColorTheme.config.swift */,
 				3226543F0C012F0F64752766 /* Google Material Design */,
@@ -440,18 +428,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C82EA6DC1E8C605D00EFB3EB /* RGTableViewController.swift in Sources */,
 				C84835751E8CAB7D008FBA54 /* ColorTheme.config.swift in Sources */,
 				C80DFA8A1E8EBFAB00E3793E /* GifImage.swift in Sources */,
-				C85467B51E8CDDA0009A9594 /* CustomTableViewCell.swift in Sources */,
-				C8B1A4831E91A07300A53C0D /* MADialogView.swift in Sources */,
 				C847E4AA1E90EF8A008BE04D /* RGImageVariant.swift in Sources */,
 				8BD0CED61DF0F4D000F7EFA2 /* ViewController.m in Sources */,
 				C82EA6DA1E8C49CC00EFB3EB /* GiphyApi.swift in Sources */,
 				C847E4AC1E90EFCD008BE04D /* RGDataObject.swift in Sources */,
 				8BD0CED31DF0F4D000F7EFA2 /* AppDelegate.m in Sources */,
 				C847E4A81E90EF1E008BE04D /* RGBaseImage.swift in Sources */,
-				C8B1A4811E919D3600A53C0D /* TableViewREST.swift in Sources */,
 				8BD0CED01DF0F4D000F7EFA2 /* main.m in Sources */,
 				C838395C1E8C36C6004FFAB8 /* MainViewController.swift in Sources */,
 				32265FBFAFBADEE6288F59C4 /* GMColor.swift in Sources */,

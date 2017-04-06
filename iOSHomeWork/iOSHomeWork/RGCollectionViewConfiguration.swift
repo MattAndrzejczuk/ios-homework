@@ -11,8 +11,7 @@ extension RGCollectionViewController {
 
 
     func initConfiguration() {
-
-        backgroundColor = UIColor(patternImage: UIImage(named: "notebook-dark")!)
+//        backgroundColor = UIColor(patternImage: UIImage(named: "bg01")!)
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 150, height: 150)
         rgCollectionView = UICollectionView(frame: SCREEN, collectionViewLayout: layout)
@@ -34,28 +33,28 @@ extension RGCollectionViewController {
                 toItem: self,
                 attribute: .top,
                 multiplier: 1.0,
-                constant: 30).isActive = true;
+                constant: 0).isActive = true;
         NSLayoutConstraint(item: rgCollectionView,
                 attribute: .leading,
                 relatedBy: .equal,
                 toItem: self,
                 attribute: .leading,
                 multiplier: 1.0,
-                constant: 1).isActive = true;
+                constant: 0).isActive = true;
         NSLayoutConstraint(item: rgCollectionView,
                 attribute: .trailing,
                 relatedBy: .equal,
                 toItem: self,
                 attribute: .trailing,
                 multiplier: 1.0,
-                constant: 30).isActive = true;
+                constant: 0).isActive = true;
         NSLayoutConstraint(item: rgCollectionView,
                 attribute: .bottom,
                 relatedBy: .equal,
                 toItem: self,
                 attribute: .bottom,
                 multiplier: 1.0,
-                constant: -30).isActive = true;
+                constant: 0).isActive = true;
 
 //        NSLayoutConstraint(item: rgCollectionView,
 //                attribute: .width,

@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "outlets.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "rubber-grip.png",
       "scale" : "2x"
     },
     {
