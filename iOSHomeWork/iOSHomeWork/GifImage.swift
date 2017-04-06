@@ -6,24 +6,23 @@
 //  Copyright © 2017 Harry Tormey. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 
-
-struct GifImageSetModel {
-    let images: [Int:GifImageModel]
+struct RGGifImageSetModel {
+    let images: [Int:RGGifImageModel]
     
     init() {
         images = [:]
     }
     
-    init(addImage: GifImageModel, toSet: GifImageSetModel) {
+    init(addImage: RGGifImageModel, toSet: RGGifImageSetModel) {
         var oldSetImages = toSet.images
         oldSetImages[addImage.index] = addImage
         images = oldSetImages
     }
     
-    init(updateImage: GifImageModel, withId: String, inSet: GifImageSetModel) {
+    init(updateImage: RGGifImageModel, withId: String, inSet: RGGifImageSetModel) {
         var oldSetImages = inSet.images
         oldSetImages[updateImage.index] = updateImage
         images = oldSetImages
@@ -31,11 +30,12 @@ struct GifImageSetModel {
 }
 
 
-struct GifImageModel {
+struct RGGifImageModel {
     let id : String
     let imgType : String
     let gifUrl : URL
     let data : Data?
     let progress : Double
     let index : Int
+    let rgJson : RGDataObject
 }

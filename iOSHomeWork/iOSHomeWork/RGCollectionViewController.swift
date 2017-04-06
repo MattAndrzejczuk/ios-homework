@@ -15,7 +15,7 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
     var rgCollectionView: UICollectionView!
     var delegate: MainViewController?
 
-    var imageSetModel = GifImageSetModel()
+    var imageSetModel = RGGifImageSetModel()
 
     var rememberedImageInstance: [Int: UIImage] = [:]
     var rememberedImageData: [Int: Data?] = [:]
@@ -110,7 +110,7 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
 
 //    func collectionView(_ collectionView: UICollectionView)
 
-    func downloadImageForPreviewCell(_ gifUrl: URL, at: IndexPath, _ model: GifImageModel, _ _cell: RGCellProgress) {
+    func downloadImageForPreviewCell(_ gifUrl: URL, at: IndexPath, _ model: RGGifImageModel, _ _cell: RGCellProgress) {
         Alamofire.request(gifUrl,
                         method: .get,
                         parameters: nil,
@@ -142,26 +142,29 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
                         self.imageDidFinishDownloading(imgData: data,
                                 withId: model.id,
                                 url: model.gifUrl,
-                                index_path: at, index: model.index)
+                                index_path: at,
+                                index: model.index,
+                                instance: self.imageSetModel.images[at.row]!.rgJson)
                     } else {
                         print("FAILED TO GET DOWNLOADED IMAGE DATA!!!")
                     }
                 }
     }
 
-    func imageDidFinishDownloading(imgData: Data, withId: String, url: URL, index_path: IndexPath, index: Int) {
-        let imageModel = GifImageModel(id: withId,
+    func imageDidFinishDownloading(imgData: Data, withId: String, url: URL, index_path: IndexPath, index: Int, instance: RGDataObject) {
+        let imageModel = RGGifImageModel(id: withId,
                 imgType: "gif",
                 gifUrl: url,
                 data: imgData,
-                progress: 1.0, index: index)
+                progress: 1.0,
+                index: index,
+                rgJson: instance)
 
         if imageSetModel.images[index] == nil {
             print("this image set is nil.")
         } else {
-            print("this image set has a value.")
             let oldSetModel = imageSetModel
-            imageSetModel = GifImageSetModel(addImage: imageModel,
+            imageSetModel = RGGifImageSetModel(addImage: imageModel,
                     toSet: oldSetModel)
 
             rememberedImageInstance[index_path.row] = UIImage.gif(data: imgData)!

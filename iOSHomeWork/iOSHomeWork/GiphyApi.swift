@@ -21,7 +21,6 @@ class GiphyApi {
     
     func search(keyword: String, pagination: Int) {
         let url: String = "\(GiphySearchGenerator(withKeyword: keyword).absoluteUrl)&offset=\(pagination)"
-        print(url)
         searchGiphyApiWithAlamo(url: url)
     }
     
@@ -32,7 +31,6 @@ class GiphyApi {
                           encoding: JSONEncoding.default)
             .downloadProgress(queue: DispatchQueue.global(qos: .utility))
             { progress in
-                print("Progress: \(progress.fractionCompleted)")
             }
             .validate { request, response, data in
                 return .success

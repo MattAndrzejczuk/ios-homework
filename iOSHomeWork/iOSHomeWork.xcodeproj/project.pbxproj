@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		322650DAB93F9FD2037EC56F /* GMPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265EED46ED600DD39B6E41 /* GMPalette.swift */; };
 		322657163480E0B10F226C9F /* RGCollectionViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265621C214E5A4BC59083B /* RGCollectionViewConfiguration.swift */; };
-		32265AAE54CC014CCD338EB0 /* RGCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265E4760A463084520288A /* RGCollectionView.swift */; };
+		32265AAE54CC014CCD338EB0 /* RGCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265E4760A463084520288A /* RGCollectionViewController.swift */; };
 		32265CE68A6F96934C4E5B8F /* RGCollectionViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265119BF75378B0687E052 /* RGCollectionViewCells.swift */; };
 		32265FBFAFBADEE6288F59C4 /* GMColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32265A7AF48C25D2B9D98696 /* GMColor.swift */; };
 		8BD0CED01DF0F4D000F7EFA2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0CECF1DF0F4D000F7EFA2 /* main.m */; };
@@ -22,8 +22,11 @@
 		8BD0CEF41DF0F4D100F7EFA2 /* iOSHomeWorkUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0CEF31DF0F4D100F7EFA2 /* iOSHomeWorkUITests.m */; };
 		9EC2A922457C1D53DE0E445C /* Pods_iOSHomeWork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B6A8B9DB83697EBF196257 /* Pods_iOSHomeWork.framework */; };
 		C80DFA8A1E8EBFAB00E3793E /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80DFA891E8EBFAB00E3793E /* GifImage.swift */; };
+		C82894AF1E95F77500569DFC /* RGAPISearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82894AE1E95F77500569DFC /* RGAPISearch.swift */; };
+		C82894B11E95F84400569DFC /* RGAPIPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82894B01E95F84400569DFC /* RGAPIPagination.swift */; };
 		C82EA6DA1E8C49CC00EFB3EB /* GiphyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */; };
 		C838395C1E8C36C6004FFAB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C838395B1E8C36C6004FFAB8 /* MainViewController.swift */; };
+		C844234D1E967DDA00ED5BE7 /* MainViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C844234C1E967DDA00ED5BE7 /* MainViewConfiguration.swift */; };
 		C847E4A81E90EF1E008BE04D /* RGBaseImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C847E4A71E90EF1E008BE04D /* RGBaseImage.swift */; };
 		C847E4AA1E90EF8A008BE04D /* RGImageVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C847E4A91E90EF8A008BE04D /* RGImageVariant.swift */; };
 		C847E4AC1E90EFCD008BE04D /* RGDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C847E4AB1E90EFCD008BE04D /* RGDataObject.swift */; };
@@ -51,7 +54,7 @@
 		32265119BF75378B0687E052 /* RGCollectionViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGCollectionViewCells.swift; sourceTree = "<group>"; };
 		32265621C214E5A4BC59083B /* RGCollectionViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGCollectionViewConfiguration.swift; sourceTree = "<group>"; };
 		32265A7AF48C25D2B9D98696 /* GMColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMColor.swift; sourceTree = "<group>"; };
-		32265E4760A463084520288A /* RGCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGCollectionView.swift; sourceTree = "<group>"; };
+		32265E4760A463084520288A /* RGCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGCollectionViewController.swift; sourceTree = "<group>"; };
 		32265EED46ED600DD39B6E41 /* GMPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMPalette.swift; sourceTree = "<group>"; };
 		4EF64882ED244CD023E6FE9A /* Pods-iOSHomeWork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSHomeWork.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSHomeWork/Pods-iOSHomeWork.release.xcconfig"; sourceTree = "<group>"; };
 		6F2C861B4B45D44E6AF8AAD9 /* Pods-iOSHomeWork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSHomeWork.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSHomeWork/Pods-iOSHomeWork.debug.xcconfig"; sourceTree = "<group>"; };
@@ -73,9 +76,12 @@
 		8BD0CEF51DF0F4D100F7EFA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90B6A8B9DB83697EBF196257 /* Pods_iOSHomeWork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSHomeWork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80DFA891E8EBFAB00E3793E /* GifImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
+		C82894AE1E95F77500569DFC /* RGAPISearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGAPISearch.swift; sourceTree = "<group>"; };
+		C82894B01E95F84400569DFC /* RGAPIPagination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGAPIPagination.swift; sourceTree = "<group>"; };
 		C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiphyApi.swift; sourceTree = "<group>"; };
 		C838395A1E8C36C5004FFAB8 /* iOSHomeWork-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSHomeWork-Bridging-Header.h"; sourceTree = "<group>"; };
 		C838395B1E8C36C6004FFAB8 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		C844234C1E967DDA00ED5BE7 /* MainViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewConfiguration.swift; sourceTree = "<group>"; };
 		C847E4A71E90EF1E008BE04D /* RGBaseImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBaseImage.swift; sourceTree = "<group>"; };
 		C847E4A91E90EF8A008BE04D /* RGImageVariant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGImageVariant.swift; sourceTree = "<group>"; };
 		C847E4AB1E90EFCD008BE04D /* RGDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGDataObject.swift; sourceTree = "<group>"; };
@@ -120,9 +126,10 @@
 		32265C09158A533A61015116 /* RGCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				32265E4760A463084520288A /* RGCollectionView.swift */,
-				32265119BF75378B0687E052 /* RGCollectionViewCells.swift */,
+				C82894AC1E95F6DC00569DFC /* Model */,
+				32265E4760A463084520288A /* RGCollectionViewController.swift */,
 				32265621C214E5A4BC59083B /* RGCollectionViewConfiguration.swift */,
+				32265119BF75378B0687E052 /* RGCollectionViewCells.swift */,
 			);
 			name = RGCollectionView;
 			sourceTree = "<group>";
@@ -200,34 +207,44 @@
 			path = iOSHomeWorkUITests;
 			sourceTree = "<group>";
 		};
-		C80DFA881E8EBF8D00E3793E /* Models */ = {
+		C80DFA881E8EBF8D00E3793E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C80DFA891E8EBFAB00E3793E /* GifImage.swift */,
 				C847E4A71E90EF1E008BE04D /* RGBaseImage.swift */,
 				C847E4A91E90EF8A008BE04D /* RGImageVariant.swift */,
 				C847E4AB1E90EFCD008BE04D /* RGDataObject.swift */,
 			);
-			name = Models;
+			name = Model;
 			sourceTree = "<group>";
 		};
-		C82EA6D81E8C498D00EFB3EB /* Giphy */ = {
+		C82894AC1E95F6DC00569DFC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C80DFA891E8EBFAB00E3793E /* GifImage.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		C82894AD1E95F6E800569DFC /* API */ = {
 			isa = PBXGroup;
 			children = (
 				C82EA6D91E8C49CC00EFB3EB /* GiphyApi.swift */,
+				C82894AE1E95F77500569DFC /* RGAPISearch.swift */,
+				C82894B01E95F84400569DFC /* RGAPIPagination.swift */,
 			);
-			name = Giphy;
+			name = API;
 			sourceTree = "<group>";
 		};
 		C83839591E8C36A0004FFAB8 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				C80DFA881E8EBF8D00E3793E /* Models */,
-				C82EA6D81E8C498D00EFB3EB /* Giphy */,
+				3226543F0C012F0F64752766 /* Google Material Design */,
+				C82894AD1E95F6E800569DFC /* API */,
+				C80DFA881E8EBF8D00E3793E /* Model */,
 				C838395B1E8C36C6004FFAB8 /* MainViewController.swift */,
+				C844234C1E967DDA00ED5BE7 /* MainViewConfiguration.swift */,
 				C838395A1E8C36C5004FFAB8 /* iOSHomeWork-Bridging-Header.h */,
 				C84835741E8CAB7D008FBA54 /* ColorTheme.config.swift */,
-				3226543F0C012F0F64752766 /* Google Material Design */,
 				32265C09158A533A61015116 /* RGCollectionView */,
 			);
 			name = Main;
@@ -433,14 +450,17 @@
 				C847E4AA1E90EF8A008BE04D /* RGImageVariant.swift in Sources */,
 				8BD0CED61DF0F4D000F7EFA2 /* ViewController.m in Sources */,
 				C82EA6DA1E8C49CC00EFB3EB /* GiphyApi.swift in Sources */,
+				C82894AF1E95F77500569DFC /* RGAPISearch.swift in Sources */,
 				C847E4AC1E90EFCD008BE04D /* RGDataObject.swift in Sources */,
 				8BD0CED31DF0F4D000F7EFA2 /* AppDelegate.m in Sources */,
+				C82894B11E95F84400569DFC /* RGAPIPagination.swift in Sources */,
 				C847E4A81E90EF1E008BE04D /* RGBaseImage.swift in Sources */,
 				8BD0CED01DF0F4D000F7EFA2 /* main.m in Sources */,
 				C838395C1E8C36C6004FFAB8 /* MainViewController.swift in Sources */,
 				32265FBFAFBADEE6288F59C4 /* GMColor.swift in Sources */,
 				322650DAB93F9FD2037EC56F /* GMPalette.swift in Sources */,
-				32265AAE54CC014CCD338EB0 /* RGCollectionView.swift in Sources */,
+				C844234D1E967DDA00ED5BE7 /* MainViewConfiguration.swift in Sources */,
+				32265AAE54CC014CCD338EB0 /* RGCollectionViewController.swift in Sources */,
 				32265CE68A6F96934C4E5B8F /* RGCollectionViewCells.swift in Sources */,
 				322657163480E0B10F226C9F /* RGCollectionViewConfiguration.swift in Sources */,
 			);
