@@ -34,7 +34,7 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
     var dialogIsOpened: Bool! = false
     
     var imgView = UIImageView()
-    
+    var fullImageProgress: UIProgressView! = UIProgressView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -126,6 +126,10 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
                 self.imgView.frame.size.height -= 25
                 self.imgView.center = self.popUpModal!.dialogModal.center
                 self.addSubview(self.imgView)
+                self.fullImageProgress = UIProgressView()
+                self.fullImageProgress.frame = self.imgView.frame
+                self.fullImageProgress.center = self.popUpModal!.dialogModal.center
+                self.addSubview(self.fullImageProgress)
                 self.downloadImageFullSize(URL(string: "\(fullImageSize)")!)
             })
 
@@ -185,19 +189,10 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
             .downloadProgress(queue: DispatchQueue.global(qos: .utility))
             { progress in
                 print(".", terminator:"")
-//                if progress.fractionCompleted >= 1 {
-//                    DispatchQueue.main.async {
-//                        _cell.progressBar.setProgress(1.0, animated: true)
-//                        self.downloadProgress[at.row] = 1.0
-//                    }
-//                    return
-//                } else {
-//                    DispatchQueue.main.async {
-//                        _cell.progressBar.setProgress(Float(progress.fractionCompleted), animated: true)
-//                        self.downloadProgress[at.row] = progress.fractionCompleted
-//                    }
-//                    return
-//                }
+
+                DispatchQueue.main.async {
+                    self.fullImageProgress.setProgress(Float(progress.fractionCompleted), animated: true)
+                }
             }
             .validate { request, response, data in
                 return .success
@@ -212,6 +207,7 @@ class RGCollectionViewController: UIView, UICollectionViewDataSource, UICollecti
     }
     
     func imageFullSizeDidFinishDownloading(imgData: Data) {
+        self.fullImageProgress.removeFromSuperview()
         let imgGif = UIImage.gif(data: imgData)!
         self.imgView.image = imgGif
     }
