@@ -1,4 +1,4 @@
-# iOS CollectionView With Animated Pop-up modals.
+# iOS CollectionView With Animated Pop-up Modals.
 
 >Matt Andrzejczuk
 
