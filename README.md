@@ -1,4 +1,4 @@
-# Eaze iOS Homework
+# iOS CollectionView With Animated Pop-up modals.
 
 >Matt Andrzejczuk
 
